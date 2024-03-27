@@ -9,7 +9,7 @@ As Node.js officially states, "Production applications should only use Active LT
 cd EventPlanner
 
 Install Dependencies:
-npm install [dependency]
+npm install expo 
 
 npx expo start
 This will start a development server for you.
