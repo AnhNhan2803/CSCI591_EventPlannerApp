@@ -65,12 +65,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#f7f7f7",
-    paddingHorizontal: 20,
-    paddingTop: 20,
+    marginTop: 20,
   },
   eventItem: {
     backgroundColor: "#fff",
     marginBottom: 20,
+    marginHorizontal: 20,
     padding: 15,
     borderRadius: 10,
     shadowColor: "#000",

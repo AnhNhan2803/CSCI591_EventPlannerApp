@@ -69,13 +69,12 @@ const styles = StyleSheet.create({
   },
   button: {
     alignItems: "center",
-    marginBottom: -5, //this edits the bottom nav height
     borderRadius: 20,
   },
   buttonText: {
-    color: "white",
+    color: "black",
     textAlign: "center",
-    fontSize: 16,
+    fontSize: 14,
     flex: 1,
   },
   hidden: {
