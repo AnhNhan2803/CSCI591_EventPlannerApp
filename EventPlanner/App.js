@@ -6,6 +6,7 @@ import HomeScreen from "./screens/HomeScreen";
 import CalendarScreen from "./screens/CalendarScreen";
 import ProfileScreen from "./screens/ProfileScreen";
 const Stack = createNativeStackNavigator();
+import Search from "./SearchBar";
 
 export default function App() {
   return (
@@ -32,5 +33,3 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
 });
-
-
