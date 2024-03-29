@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "babel-plugin-module-resolver": "^5.0.0",
+    "expo": "^50.0.14",
+    "react-native": "^0.73.6"
+  },
+  "devDependencies": {
+    "metro": "^0.80.8"
+  }
+}
