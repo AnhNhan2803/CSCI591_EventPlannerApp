@@ -10,14 +10,16 @@ export const colors = {
 
   // Transition Colors (see UM website for actual transition)
   green: '#1d3c34',
-  tan: '#f0e7d6',
-  orange: '#f94139',
+  tan: '#DFD1A7',
+  copper: '#ED8B00',
   blue: '#bcdee8',
+  wheat: '#EFE8D4',
+  sky: '#BBDDE6',
 
   // Interaction Colors
   success: '#00DE83',
   warning: '#CADE00',
-  danger: '#ff4b51',
+  danger: '#F9423A',
 };
 
 // Home page transition colors
