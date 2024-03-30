@@ -7,6 +7,7 @@ import CalendarScreen from "./screens/CalendarScreen";
 import ProfileScreen from "./screens/ProfileScreen";
 const Stack = createNativeStackNavigator();
 import Search from "./SearchBar";
+import { colors } from "./constants/theme";
 
 export default function App() {
   return (
@@ -28,7 +29,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: colors.maroon,
     alignItems: "center",
     justifyContent: "center",
   },
