@@ -65,7 +65,7 @@ const HomeScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.maroon,
+    backgroundColor: colors.dark,
     marginTop: 20,
   },
   eventItem: {

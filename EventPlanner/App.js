@@ -5,32 +5,53 @@ import { StyleSheet, Text, View } from "react-native";
 import HomeScreen from "./screens/HomeScreen";
 import CalendarScreen from "./screens/CalendarScreen";
 import ProfileScreen from "./screens/ProfileScreen";
-const Stack = createNativeStackNavigator();
 import Search from "./SearchBar";
 import { colors } from "./constants/theme";
+import { LinearGradient } from 'expo-linear-gradient';
+
+const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
-    <NavigationContainer>
+    <NavigationContainer style={styles.header}>
       <Stack.Navigator
         initialRouteName="HomeScreen"
-        // screenOptions={{
-        //   headerShown: false,
-        // }}
+        screenOptions={{
+          headerShown: true,
+          contentStyle: {
+            backgroundColor: colors.dark,
+          }
+        }}
       >
-        <Stack.Screen name="HomeScreen" component={HomeScreen} />
-        <Stack.Screen name="CalendarScreen" component={CalendarScreen} />
-        <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
+        <Stack.Screen
+          name="HomeScreen"
+          component={HomeScreen}
+          options={{
+            title: "Events",
+            headerStyle: {
+              backgroundColor: colors.maroon,
+            },
+            headerTintColor: colors.white,
+            headerTitleStyle: {
+              fontSize: 35,
+            }
+          }}
+        />
+        <Stack.Screen
+          name="CalendarScreen"
+          component={CalendarScreen}
+        />
+        <Stack.Screen
+          name="ProfileScreen"
+          component={ProfileScreen}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
+  header: {
     backgroundColor: colors.maroon,
-    alignItems: "center",
-    justifyContent: "center",
   },
 });
