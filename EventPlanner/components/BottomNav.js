@@ -1,9 +1,12 @@
 import React from "react";
-import { View, TouchableOpacity, Image, StyleSheet, Text } from "react-native";
+import { View, TouchableOpacity, StyleSheet, Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { colors } from "../constants/theme";
+import Icon from "react-native-vector-icons/Ionicons";
 
 const BottomNav = () => {
   const navigation = useNavigation();
+  const iconSize = 35;
 
   return (
     <>
@@ -13,33 +16,32 @@ const BottomNav = () => {
             style={styles.button}
             onPress={() => navigation.navigate("CalendarScreen")}
           >
-            <Image
-              source={require("../assets/calendar.png")}
-              style={styles.buttonNav}
+            <Icon
+              name="calendar-outline"
+              size={iconSize}
+              color={colors.white}
             />
-            <Text style={styles.buttonText}>Calendar</Text>
+            {/* <Text style={styles.buttonText}>Calendar</Text> */}
           </TouchableOpacity>
 
           <TouchableOpacity
             style={styles.button}
             onPress={() => navigation.navigate("HomeScreen")}
           >
-            <Image
-              source={require("../assets/home.png")}
-              style={styles.buttonNav}
-            />
-            <Text style={styles.buttonText}>Home</Text>
+            <Icon name="home-outline" size={iconSize} color={colors.white} />
+            {/* <Text style={styles.buttonText}>Home</Text> */}
           </TouchableOpacity>
 
           <TouchableOpacity
             style={styles.button}
             onPress={() => navigation.navigate("ProfileScreen")}
           >
-            <Image
-              source={require("../assets/user.png")}
-              style={styles.buttonNav}
+            <Icon
+              name="person-circle-outline"
+              size={iconSize}
+              color={colors.white}
             />
-            <Text style={styles.buttonText}>Favorites</Text>
+            {/* <Text style={styles.buttonText}>Profile</Text> */}
           </TouchableOpacity>
         </View>
       </View>
@@ -52,27 +54,27 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: 0,
     width: "100%",
-    borderTopWidth: 1,
-    borderColor: "lightgray",
-    backgroundColor: "white",
+    borderTopWidth: 3,
+    borderColor: colors.green,
+    backgroundColor: colors.maroon,
   },
   bottomRow: {
     flexDirection: "row",
-    justifyContent: "space-evenly",
+    justifyContent: "space-around",
     alignItems: "center",
     width: "100%",
     borderTopWidth: 1,
     borderColor: "lightgray",
     paddingVertical: 10,
-    backgroundColor: "white",
-    opacity: 0.7,
   },
   button: {
     alignItems: "center",
     borderRadius: 20,
+    width: 60,
+    height: 60,
   },
   buttonText: {
-    color: "black",
+    color: colors.white,
     textAlign: "center",
     fontSize: 14,
     flex: 1,

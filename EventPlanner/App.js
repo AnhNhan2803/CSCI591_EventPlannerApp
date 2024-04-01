@@ -6,22 +6,40 @@ import HomeScreen from "./screens/HomeScreen";
 import CalendarScreen from "./screens/CalendarScreen";
 import ProfileScreen from "./screens/ProfileScreen";
 import Login from "./screens/Login";
-const Stack = createNativeStackNavigator();
 import Search from "./SearchBar";
 import { useNavigation } from "@react-navigation/native";
+import { LinearGradient } from "expo-linear-gradient";
+import { colors } from "./constants/theme";
 
-export default function App() {   
+const Stack = createNativeStackNavigator();
 
+export default function App() {
   return (
-    <NavigationContainer>
+    <NavigationContainer style={styles.header}>
       <Stack.Navigator
         initialRouteName="Login"
-        // screenOptions={{
-        //   headerShown: false,
-        // }}
+        screenOptions={{
+          headerShown: false,
+          contentStyle: {
+            backgroundColor: colors.dark,
+          },
+        }}
       >
+        <Stack.Screen
+          name="HomeScreen"
+          component={HomeScreen}
+          options={{
+            title: "Events",
+            headerStyle: {
+              backgroundColor: colors.maroon,
+            },
+            headerTintColor: colors.white,
+            headerTitleStyle: {
+              fontSize: 35,
+            },
+          }}
+        />
         <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen name="HomeScreen" component={HomeScreen} />
         <Stack.Screen name="CalendarScreen" component={CalendarScreen} />
         <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
       </Stack.Navigator>
@@ -35,5 +53,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
+  },
+  header: {
+    backgroundColor: colors.maroon,
   },
 });
