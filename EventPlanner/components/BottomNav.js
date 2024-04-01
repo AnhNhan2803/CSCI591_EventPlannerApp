@@ -1,6 +1,8 @@
 import React from "react";
 import { View, TouchableOpacity, StyleSheet, Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { colors } from "../constants/theme";
+import Icon from "react-native-vector-icons/Ionicons";
 
 const BottomNav = () => {
   const navigation = useNavigation();

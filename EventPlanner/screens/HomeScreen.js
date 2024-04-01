@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import BottomNav from "../components/BottomNav";
 import { useNavigation } from "@react-navigation/native";
+import { colors } from "../constants/theme";
 
 const HomeScreen = () => {
   const navigation = useNavigation();
@@ -64,19 +65,19 @@ const HomeScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.dark,
+    backgroundColor: colors.maroon,
     marginTop: 20,
   },
   eventItem: {
-    backgroundColor: "#fff",
+    backgroundColor: colors.white,
     marginBottom: 20,
     marginHorizontal: 20,
     padding: 15,
     borderRadius: 10,
-    shadowColor: "#000",
+    shadowColor: colors.dark,
     shadowOffset: {
       width: 0,
-      height: 2,
+      height: 10,
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
@@ -89,16 +90,16 @@ const styles = StyleSheet.create({
   },
   eventInfo: {
     fontSize: 16,
-    color: "#555",
+    color: colors.medium,
     marginBottom: 3,
   },
   bold: {
     fontWeight: "bold",
-    color: "#333",
+    color: colors.dark,
   },
   eventDescription: {
     fontSize: 16,
-    color: "#777",
+    color: colors.light,
   },
 });
 

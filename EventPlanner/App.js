@@ -7,8 +7,9 @@ import CalendarScreen from "./screens/CalendarScreen";
 import ProfileScreen from "./screens/ProfileScreen";
 import Login from "./screens/Login";
 import Search from "./SearchBar";
-import { useNavigation } from "@react-navigation/nativee";
+import { useNavigation } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
+import { colors } from "./constants/theme";
 
 const Stack = createNativeStackNavigator();
 
