@@ -1,8 +1,6 @@
 import React from "react";
 import { View, TouchableOpacity, StyleSheet, Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { colors } from "../constants/theme";
-import Icon from 'react-native-vector-icons/Ionicons';
 
 const BottomNav = () => {
   const navigation = useNavigation();
@@ -28,11 +26,7 @@ const BottomNav = () => {
             style={styles.button}
             onPress={() => navigation.navigate("HomeScreen")}
           >
-            <Icon
-              name="home-outline"
-              size={iconSize}
-              color={colors.white}
-            />
+            <Icon name="home-outline" size={iconSize} color={colors.white} />
             {/* <Text style={styles.buttonText}>Home</Text> */}
           </TouchableOpacity>
 
@@ -67,15 +61,15 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     alignItems: "center",
     width: "100%",
-    borderTopWidth: 3,
-    borderColor: colors.tan,
+    borderTopWidth: 1,
+    borderColor: "lightgray",
     paddingVertical: 10,
   },
   button: {
     alignItems: "center",
     borderRadius: 20,
     width: 60,
-    height: 60
+    height: 60,
   },
   buttonText: {
     color: colors.white,
