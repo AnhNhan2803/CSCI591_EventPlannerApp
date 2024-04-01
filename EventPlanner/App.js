@@ -39,6 +39,7 @@ export default function App() {
             },
           }}
         />
+        <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="CalendarScreen" component={CalendarScreen} />
         <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
       </Stack.Navigator>
