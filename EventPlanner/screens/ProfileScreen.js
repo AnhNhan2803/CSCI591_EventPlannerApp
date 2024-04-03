@@ -10,9 +10,10 @@ import {
   ScrollView,
 } from "react-native";
 import BottomNav from "../components/BottomNav";
-import { useNavigation } from "@react-navigation/native";
-const ProfileScreen = () => {
-  const navigation = useNavigation();
+// import { useNavigation } from "@react-navigation/native";
+
+export const ProfileScreen = () => {
+  // const navigation = useNavigation();
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
@@ -31,5 +32,3 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0,0,0,0.1)",
   },
 });
-
-export default ProfileScreen;

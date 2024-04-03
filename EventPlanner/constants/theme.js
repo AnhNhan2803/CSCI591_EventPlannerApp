@@ -7,6 +7,8 @@ export const colors = {
   light: "#9c9a9a",
   black: "#000000",
   white: "#ffffff",
+  red: "#fc5c65",
+  brightBlue: "#039be5",
 
   // Transition Colors (see UM website for actual transition)
   green: "#1d3c34",
