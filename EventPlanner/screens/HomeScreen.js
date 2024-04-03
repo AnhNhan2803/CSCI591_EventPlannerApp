@@ -6,22 +6,13 @@ import {
   Text,
   SafeAreaView,
   FlatList,
-  Button,
 } from "react-native";
 import BottomNav from "../components/BottomNav";
-// import { useNavigation } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import { colors } from "../constants/theme";
-import { signOut } from "firebase/auth";
 
-import { auth } from "../config";
-
-export const HomeScreen = () => {
-  // const navigation = useNavigation();
-
-  // Sign out functionality
-  const handleLogout = () => {
-    signOut(auth).catch((error) => console.log("Error logging out: ", error));
-  };
+const HomeScreen = () => {
+  const navigation = useNavigation();
 
   //data for events -- will eventually use firebase
   const eventsData = [
@@ -61,7 +52,6 @@ export const HomeScreen = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Button title="Sign Out" onPress={handleLogout} />
       <FlatList
         data={eventsData}
         renderItem={renderItem}
@@ -75,8 +65,8 @@ export const HomeScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.light,
-    // marginTop: 20,
+    backgroundColor: colors.maroon,
+    marginTop: 20,
   },
   eventItem: {
     backgroundColor: colors.white,
@@ -112,3 +102,5 @@ const styles = StyleSheet.create({
     color: colors.light,
   },
 });
+
+export default HomeScreen;
