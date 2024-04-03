@@ -1,4 +1,5 @@
 import React from "react";
+import { useState, useEffect } from "react";
 import {
   View,
   TouchableOpacity,
@@ -8,6 +9,8 @@ import {
   FlatList,
   Button,
 } from "react-native";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../config/firebase";
 import BottomNav from "../components/BottomNav";
 // import { useNavigation } from "@react-navigation/native";
 import { colors } from "../constants/theme";
@@ -17,6 +20,7 @@ import { auth } from "../config";
 
 export const HomeScreen = () => {
   // const navigation = useNavigation();
+  const [events, setEvents] = useState([]);
 
   // Sign out functionality
   const handleLogout = () => {
@@ -43,19 +47,55 @@ export const HomeScreen = () => {
     },
     // Add more events as needed
   ];
+  const parseFullDate = (fullDate) => {
+    const [month, day, year] = fullDate.split("/");
+    return new Date(year, month - 1, day);
+  };
+  const filteredEvents = events.filter((event) => {
+    const eventDate = parseFullDate(event.FullDate);
+    const currentDate = new Date();
+    return eventDate > currentDate;
+  });
+  const sortByDate = (events) => {
+    return events.sort((a, b) => {
+      const dateA = parseFullDate(a.FullDate);
+      const dateB = parseFullDate(b.FullDate);
+      return dateA - dateB;
+    });
+  };
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, "Events"));
+        const eventData = [];
+        querySnapshot.forEach((doc) => {
+          eventData.push(doc.data());
+        });
+        eventData.sort((a, b) => {
+          const dateA = parseFullDate(a.FullDate);
+          const dateB = parseFullDate(b.FullDate);
+          return dateA - dateB;
+        });
+        setEvents(eventData);
+      } catch (error) {
+        console.error("Error fetching events:", error);
+      }
+    };
 
+    fetchEvents();
+  }, []);
   // Render each event
   const renderItem = ({ item }) => (
     <TouchableOpacity style={styles.eventItem}>
-      <Text style={styles.eventName}>{item.name}</Text>
+      <Text style={styles.eventName}>{item.Name}</Text>
       <Text style={styles.eventInfo}>
-        <Text style={styles.bold}>Date:</Text> {item.date}{" "}
+        <Text style={styles.bold}>Date:</Text> {item.FullDate}{" "}
         <Text style={styles.bold}>Time:</Text> {item.time}
       </Text>
       <Text style={styles.eventInfo}>
-        <Text style={styles.bold}>Location:</Text> {item.location}
+        <Text style={styles.bold}>Location:</Text> {item.Location}
       </Text>
-      <Text style={styles.eventDescription}>{item.description}</Text>
+      <Text style={styles.eventDescription}>{item.Description}</Text>
     </TouchableOpacity>
   );
 
@@ -63,9 +103,9 @@ export const HomeScreen = () => {
     <SafeAreaView style={styles.container}>
       <Button title="Sign Out" onPress={handleLogout} />
       <FlatList
-        data={eventsData}
+        data={events}
         renderItem={renderItem}
-        keyExtractor={(item) => item.id.toString()}
+        keyExtractor={(item, index) => item.FullDate + index}
       />
       <BottomNav />
     </SafeAreaView>
