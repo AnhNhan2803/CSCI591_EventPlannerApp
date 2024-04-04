@@ -8,9 +8,7 @@ import { View, TextInput, Logo, Button, FormErrorMessage } from "../components";
 import { Images, colors, auth } from "../config";
 import { useTogglePasswordVisibility } from "../hooks";
 import { signupValidationSchema } from "../utils";
-import { initUserCred } from "../config/users"
-import { db } from "../config/firebase";
-import { doc, setDoc } from "firebase/firestore";
+import { initUserObject } from "../config/users";
 
 export const SignupScreen = ({ navigation }) => {
   const [errorState, setErrorState] = useState("");
@@ -29,7 +27,7 @@ export const SignupScreen = ({ navigation }) => {
 
     createUserWithEmailAndPassword(auth, email, password).then((userCred) => {
       // Create user object in firestore
-      initUserObject(userCred);
+      initUserObject(userCred, email);
     }).catch((error) => setErrorState(error.message)
     );
   };

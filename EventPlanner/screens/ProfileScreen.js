@@ -1,22 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
-  Image,
   TouchableOpacity,
   StyleSheet,
   Text,
   SafeAreaView,
-  ImageBackground,
-  ScrollView,
-  SectionList,
-  StatusBar,
   Switch,
   Button,
 } from "react-native";
 import BottomNav from "../components/BottomNav";
-import { useNavigation } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/Ionicons";
 import { colors } from "../constants/theme";
+import { getUserObjectFromUid, updateUserField } from "../config/users";
+import { auth } from "../config";
 
 /**
  * User Profile Screen
@@ -26,20 +22,40 @@ import { colors } from "../constants/theme";
  *
  * @returns void
  */
-const ProfileScreen = () => {
+const ProfileScreen = ({ navigation }) => {
   const [pushNotification, setPushNotification] = useState(false);
   const [emailNotification, setEmailNotification] = useState(false);
+  const [userObject, setUserObject] = useState(null)
 
-  const userObject = false;
+  // Updates userObject on page focus
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      getUserObjectFromUid(auth.currentUser.uid).then((obj) => {
+        // Sets user object and rerenders the page
+        setUserObject(obj);
+      });
+    });
+
+    return unsubscribe;
+  }, [navigation]);
+
+  // Updates the state of the sliders
+  useEffect(() => {
+    if (!userObject) return;
+    userObject.isPushNotification ? setPushNotification(true) : setPushNotification(false);
+    userObject.isEmailNotification ? setEmailNotification(true) : setEmailNotification(false);
+  }, [userObject]);
 
   function handlePushNotificationChange(value) {
     setPushNotification(value);
     // Call some function here to enable push notifications on device
+    updateUserField(auth.currentUser.uid, 'isPushNotification', value, verbose=true);
   }
 
   function handleEmailNotificationChange(value) {
     setEmailNotification(value);
     // Call some function here to enable email notifications on device
+    updateUserField(auth.currentUser.uid, 'isEmailNotification', value, verbose=true);
   }
 
   // Sign out functionality
@@ -74,9 +90,9 @@ const ProfileScreen = () => {
               />
             </View>
             <View style={styles.headerTextContainer}>
-              <Text style={styles.name}>{"{userObject.name}"}</Text>
+              <Text style={styles.name}>{userObject ? userObject.email : "Loading..."}</Text>
               <Text style={styles.name}>
-                {"{userObject.auth.level ? student : admin} profile"}
+                {userObject ? userObject.isAdmin ? "Student" : "Admin" : "Loading..."}
               </Text>
             </View>
           </View>
