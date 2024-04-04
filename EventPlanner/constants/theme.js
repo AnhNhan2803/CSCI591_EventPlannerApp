@@ -3,8 +3,8 @@ export const colors = {
   // Base colors
   maroon: "#70002e",
   dark: "#191919",
-  medium: "#454343",
-  light: "#9c9a9a",
+  medium: "#9c9c9c",
+  light: "#d6d6d6",
   black: "#000000",
   white: "#ffffff",
   red: "#fc5c65",

@@ -4,7 +4,7 @@ import { HomeScreen } from "../screens";
 import { Text, StyleSheet } from "react-native";
 import { colors } from "../config";
 import CalendarScreen from "../screens/CalendarScreen";
-import { ProfileScreen } from "../screens/ProfileScreen";
+import ProfileScreen from "../screens/ProfileScreen";
 
 const Stack = createStackNavigator();
 
