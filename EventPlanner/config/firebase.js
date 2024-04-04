@@ -17,7 +17,7 @@ const firebaseConfig = {
 // initialize firebase
 const app = initializeApp(firebaseConfig);
 
-// initialize forestore object
+// initialize Firestore object
 const db = getFirestore(app)
 
 // initialize auth; only for native platforms (Android and iOS)

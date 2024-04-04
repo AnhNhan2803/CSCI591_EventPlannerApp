@@ -8,6 +8,7 @@ import { View, TextInput, Logo, Button, FormErrorMessage } from "../components";
 import { Images, colors, auth } from "../config";
 import { useTogglePasswordVisibility } from "../hooks";
 import { signupValidationSchema } from "../utils";
+import { initUserCred } from "../config/users"
 import { db } from "../config/firebase";
 import { doc, setDoc } from "firebase/firestore";
 
@@ -28,17 +29,7 @@ export const SignupScreen = ({ navigation }) => {
 
     createUserWithEmailAndPassword(auth, email, password).then((userCred) => {
       // Create user object in firestore
-      setDoc(doc(db, "Users", userCred.user.uid), {
-        email: email,
-        netId: email.split('@')[0],
-        admin: (netId[-1] === 'e') ? true : false,
-        profilePictureUrl: null,
-        isPushNotification: false,
-        isEmailNotification: false,
-      }).then(() => console.log("Successfully created user object in Firestore")).catch((err) => {
-        setErrorState(err.message)
-        console.error("Error creating user object in Firestore", err)
-      });
+      initUserObject(userCred);
     }).catch((error) => setErrorState(error.message)
     );
   };
