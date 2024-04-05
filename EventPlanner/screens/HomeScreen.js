@@ -1,7 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import {
-  View,
   TouchableOpacity,
   StyleSheet,
   Text,
@@ -14,18 +13,10 @@ import { db } from "../config/firebase";
 import BottomNav from "../components/BottomNav";
 // import { useNavigation } from "@react-navigation/native";
 import { colors } from "../constants/theme";
-import { signOut } from "firebase/auth";
-
-import { auth } from "../config";
 
 export const HomeScreen = () => {
   // const navigation = useNavigation();
   const [events, setEvents] = useState([]);
-
-  // Sign out functionality
-  const handleLogout = () => {
-    signOut(auth).catch((error) => console.log("Error logging out: ", error));
-  };
 
   //data for events -- will eventually use firebase
   const eventsData = [
@@ -101,7 +92,6 @@ export const HomeScreen = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Button title="Sign Out" onPress={handleLogout} />
       <FlatList
         data={events}
         renderItem={renderItem}
@@ -140,15 +130,15 @@ const styles = StyleSheet.create({
   },
   eventInfo: {
     fontSize: 16,
-    color: colors.medium,
+    color: colors.dark,
     marginBottom: 3,
   },
   bold: {
     fontWeight: "bold",
-    color: colors.dark,
+    color: colors.black,
   },
   eventDescription: {
     fontSize: 16,
-    color: colors.light,
+    color: colors.medium,
   },
 });

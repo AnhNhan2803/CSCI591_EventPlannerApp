@@ -8,7 +8,6 @@ import { View, TextInput, Logo, Button, FormErrorMessage } from "../components";
 import { Images, colors, auth } from "../config";
 import { useTogglePasswordVisibility } from "../hooks";
 import { signupValidationSchema } from "../utils";
-import { initUserObject } from "../config/users";
 
 export const SignupScreen = ({ navigation }) => {
   const [errorState, setErrorState] = useState("");
@@ -27,7 +26,11 @@ export const SignupScreen = ({ navigation }) => {
 
     createUserWithEmailAndPassword(auth, email, password).then((userCred) => {
       // Create user object in firestore
-      initUserObject(userCred, email);
+      userCred.user.isPushNotification = false;
+      userCred.user.isEmailNotification = false;
+      userCred.user.isAdmin = email.split('@')[0].splice(-1) == 'e' ? true : false;
+      userCred.user.netId = email.split('@')[0];
+      userCred.user.photoURL = null;
     }).catch((error) => setErrorState(error.message)
     );
   };
