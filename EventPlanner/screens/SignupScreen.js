@@ -24,8 +24,14 @@ export const SignupScreen = ({ navigation }) => {
   const handleSignup = async (values) => {
     const { email, password } = values;
 
-    createUserWithEmailAndPassword(auth, email, password).catch((error) =>
-      setErrorState(error.message)
+    createUserWithEmailAndPassword(auth, email, password).then((userCred) => {
+      // Create user object in firestore
+      userCred.user.isPushNotification = false;
+      userCred.user.isEmailNotification = false;
+      userCred.user.isAdmin = email.split('@')[0].splice(-1) == 'e' ? true : false;
+      userCred.user.netId = email.split('@')[0];
+      userCred.user.photoURL = null;
+    }).catch((error) => setErrorState(error.message)
     );
   };
 

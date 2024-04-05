@@ -1,22 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
-  Image,
   TouchableOpacity,
   StyleSheet,
   Text,
   SafeAreaView,
-  ImageBackground,
-  ScrollView,
-  SectionList,
-  StatusBar,
   Switch,
   Button,
 } from "react-native";
 import BottomNav from "../components/BottomNav";
-import { useNavigation } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/Ionicons";
 import { colors } from "../constants/theme";
+import { auth } from "../config";
+import { signOut } from "firebase/auth";
 
 /**
  * User Profile Screen
@@ -26,25 +22,42 @@ import { colors } from "../constants/theme";
  *
  * @returns void
  */
-const ProfileScreen = () => {
+const ProfileScreen = ({ navigation }) => {
   const [pushNotification, setPushNotification] = useState(false);
   const [emailNotification, setEmailNotification] = useState(false);
+  const [user, setUser] = useState(auth.currentUser);
 
-  const userObject = false;
+  // Updates userObject on page focus
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      setUser(auth.currentUser);
+    });
+
+    return unsubscribe;
+  }, [navigation]);
+
+  // Updates the state of the sliders
+  useEffect(() => {
+    if (!user) return;
+    user.isPushNotification ? setPushNotification(true) : setPushNotification(false);
+    user.isEmailNotification ? setEmailNotification(true) : setEmailNotification(false);
+  }, [user]);
 
   function handlePushNotificationChange(value) {
     setPushNotification(value);
     // Call some function here to enable push notifications on device
-  }
+    auth.currentUser.isPushNotification = value;
+  };
 
   function handleEmailNotificationChange(value) {
     setEmailNotification(value);
     // Call some function here to enable email notifications on device
-  }
+    auth.currentUser.isEmailNotification = value;
+  };
 
   // Sign out functionality
   const handleLogout = () => {
-    console.log("SIGN OUT PRESSED");
+    signOut(auth).catch((error) => console.log("Error logging out: ", error));
   };
 
   // Sign in functionality
@@ -74,9 +87,9 @@ const ProfileScreen = () => {
               />
             </View>
             <View style={styles.headerTextContainer}>
-              <Text style={styles.name}>{"{userObject.name}"}</Text>
+              <Text style={styles.name}>{user ? user.email : "Loading..."}</Text>
               <Text style={styles.name}>
-                {"{userObject.auth.level ? student : admin} profile"}
+                {user ? user.isAdmin ? "Student" : "Admin" : "Loading..."}
               </Text>
             </View>
           </View>
@@ -118,7 +131,7 @@ const ProfileScreen = () => {
               </View>
             </TouchableOpacity>
             {/* Conditionally renders signout button if based on whether userObject exists */}
-            {userObject ? (
+            {user ? (
               <View style={styles.buttonContainer}>
                 <TouchableOpacity>
                   <View style={styles.button}>
