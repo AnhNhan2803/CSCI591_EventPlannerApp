@@ -6,7 +6,7 @@ jobs:
     name: iOS Dev Build
     runs-on: macos-latest
     steps:
-      - name: Show self-hosted machine infomation
+      - name: Show runner machine information
         run: uname -a
       - name: Cancel previous runs
         uses: styfle/cancel-workflow-action@0.9.1
@@ -19,7 +19,7 @@ jobs:
       - name: Cache cocoapods
         uses: actions/cache@v3
         with:
-          path: /ios/Pods
+          path: ./ios/Pods
           key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
           restore-keys: |
             ${{ runner.os }}-pods-
@@ -46,7 +46,7 @@ jobs:
     name: Android Dev Build
     runs-on: windows-latest
     steps:
-      - name: Show self-hosted machine infomation
+      - name: Show runner machine information
         run: uname -a
       - name: Cancel previous runs
         uses: styfle/cancel-workflow-action@0.9.1
