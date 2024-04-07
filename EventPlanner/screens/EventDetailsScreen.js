@@ -10,6 +10,8 @@ import {
     ScrollView,
 } from "react-native";
 import BottomNav from "../components/BottomNav";
+import EventDetails from "../components/EventDetails"
+import RSVPButton from "../components/RSVPButton";
 // import { useNavigation } from "@react-navigation/native";
 
 const EventDetailsScreen = () => {
@@ -17,7 +19,8 @@ const EventDetailsScreen = () => {
     return (
         <SafeAreaView style={styles.container}>
             <ScrollView>
-                <Text>This is event details screen</Text>
+                <EventDetails eventId={""}></EventDetails>
+                <RSVPButton></RSVPButton>
             </ScrollView>
             <BottomNav />
         </SafeAreaView>
