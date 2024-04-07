@@ -3,7 +3,7 @@ on:
     branches: [ "ci/cd" ]
 jobs:
   ios-build:
-    name: iOS Dev Build
+    name: iOS CI/CD Build
     permissions: write-all
     runs-on: macos-latest
     steps:
@@ -11,10 +11,10 @@ jobs:
         run: uname -a
       - name: Cancel previous runs
         uses: styfle/cancel-workflow-action@0.9.1
-      - name: Checkout repo from dev branch
+      - name: Checkout repo from ci/cd branch
         uses: actions/checkout@v3
         with:
-          ref: dev
+          ref: ci/cd
       - name: Install npm dependency
         run: yarn install
       - name: Cache cocoapods
@@ -44,7 +44,7 @@ jobs:
           cd ios
           bundle exec fastlane build_testflight
   android-build:
-    name: Android Dev Build
+    name: Android CI/CD Build
     permissions: write-all
     runs-on: windows-latest
     steps:
@@ -52,10 +52,10 @@ jobs:
         run: uname -a
       - name: Cancel previous runs
         uses: styfle/cancel-workflow-action@0.9.1
-      - name: Checkout repo from dev branch
+      - name: Checkout repo from ci/cd branch
         uses: actions/checkout@v3
         with:
-          ref: dev
+          ref: ci/cd
       - name: Install npm dependency
         run: yarn install
       - name: Setup Android SDK
