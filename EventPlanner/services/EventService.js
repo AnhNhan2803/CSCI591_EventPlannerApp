@@ -20,15 +20,15 @@ export const EventService = {
 
     getEventDetails: async (eventId) => {
         try {
-        const eventDoc = doc(db, "events", eventId);
-        const docSnap = await getDoc(eventDoc);
+            const eventDoc = doc(db, "events", eventsId);
+            const docSnap = await getDoc(eventDoc);
 
-        if (docSnap.exists()) {
-            return { id: docSnap.id, ...docSnap.data() };
-        } else {
-            throw new Error("No such document!");
+            if (docSnap.exists()) {
+                return { id: docSnap.id, ...docSnap.data() };
+            } else {
+                throw new Error("No such document!");
 
-        }
+            }
         } catch (error) {
             console.error("Error getting event details: ", error);
             throw new Error(error.message);
