@@ -4,6 +4,7 @@ on:
 jobs:
   ios-build:
     name: iOS Dev Build
+    permissions: write-all
     runs-on: macos-latest
     steps:
       - name: Show runner machine information
@@ -44,6 +45,7 @@ jobs:
           bundle exec fastlane build_testflight
   android-build:
     name: Android Dev Build
+    permissions: write-all
     runs-on: windows-latest
     steps:
       - name: Show runner machine information
