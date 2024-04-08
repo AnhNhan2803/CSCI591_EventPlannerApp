@@ -26,10 +26,15 @@ jobs:
           expo-version: 6.x
           expo-username: ${{ secrets.EXPO_CLI_USERNAME }}
           expo-password: ${{ secrets.EXPO_CLI_PASSWORD }}
+      - name: Setup EAS
+        uses: expo/expo-github-action@v8
+        with:
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
       - name: Install deps
         run: yarn install
       - name: Build iOS app
-        run: expo build:ios
+        run: eas build --non-interactive
         env:
             EXPO_APPLE_ID: ${{secrets.EXPO_APPLE_ID}}
             EXPO_APPLE_ID_PASSWORD: ${{secrets.EXPO_APPLE_PASSWORD}} 
@@ -53,7 +58,12 @@ jobs:
           expo-version: 6.x
           expo-username: ${{ secrets.EXPO_CLI_USERNAME }}
           expo-password: ${{ secrets.EXPO_CLI_PASSWORD }}
+      - name: Setup EAS
+        uses: expo/expo-github-action@v8
+        with:
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
       - name: Install deps
         run: yarn install
       - name: Build Android APK Bundle
-        run: expo build:android
+        run: eas build --non-interactive

@@ -1,5 +1,10 @@
 {
   "expo": {
+    "extra": {
+      "eas": {
+        "projectId": "8ee6e6c2-8b90-4531-863c-0054c76d8485"
+      }
+    },
     "name": "EventPlanner",
     "slug": "EventPlanner",
     "version": "1.0.0",
@@ -17,14 +22,16 @@
     "ios": {
       "supportsTablet": true
     },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
-    },
-    "web": {
-      "favicon": "./assets/favicon.png"
+      },
+      "package": "com.yourcompany.yourappname",
+      "versionCode": 1
     }
   }
 }

@@ -3,6 +3,7 @@ import "dotenv/config";
 export default {
   expo: {
     name: "eventplanner",
+    owner: "nhancao2803",
     slug: "event-planner",
     privacy: "public",
     platforms: ["ios", "android"],
@@ -21,6 +22,9 @@ export default {
     ios: {
       supportsTablet: true,
     },
+    android: {
+      package: "com.yourcompany.yourappname",
+    },
     extra: {
       apiKey: process.env.API_KEY,
       authDomain: process.env.AUTH_DOMAIN,
@@ -28,6 +32,10 @@ export default {
       storageBucket: process.env.STORAGE_BUCKET,
       messagingSenderId: process.env.MESSAGING_SENDER_ID,
       appId: process.env.APP_ID,
+      // Add the EAS project ID here
+      eas: {
+        projectId: "8ee6e6c2-8b90-4531-863c-0054c76d8485"
+      }
     },
   },
 };
