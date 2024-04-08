@@ -34,7 +34,7 @@ jobs:
       - name: Install deps
         run: yarn install
       - name: Build iOS app
-        run: eas build --non-interactive
+        run: eas build --platform ios
         env:
             EXPO_APPLE_ID: ${{secrets.EXPO_APPLE_ID}}
             EXPO_APPLE_ID_PASSWORD: ${{secrets.EXPO_APPLE_PASSWORD}} 
@@ -66,4 +66,4 @@ jobs:
       - name: Install deps
         run: yarn install
       - name: Build Android APK Bundle
-        run: eas build --non-interactive
+        run: eas build --platform android
