@@ -21,6 +21,7 @@ export default {
     assetBundlePatterns: ["**/*"],
     ios: {
       supportsTablet: true,
+      bundleIdentifier: "com.yourcompany.yourappname"
     },
     android: {
       package: "com.yourcompany.yourappname",

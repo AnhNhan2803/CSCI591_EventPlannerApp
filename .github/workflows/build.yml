@@ -32,7 +32,7 @@ jobs:
         working-directory: ./EventPlanner
 
       - name: Build iOS app
-        run: eas build --platform ios
+        run: eas build --platform ios --local --profile development
         working-directory: ./EventPlanner
 
 
