@@ -33,7 +33,7 @@ jobs:
 
       - name: Build iOS app
         run: eas build --platform ios
-
+        working-directory: ./EventPlanner
 
 
   # Android build 
