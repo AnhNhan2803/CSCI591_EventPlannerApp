@@ -11,6 +11,7 @@ import {
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../config/firebase";
 import BottomNav from "../components/BottomNav";
+import CreateButton from "../components/CreateButton";
 // import { useNavigation } from "@react-navigation/native";
 import { colors } from "../constants/theme";
 
@@ -97,6 +98,7 @@ export const HomeScreen = () => {
         renderItem={renderItem}
         keyExtractor={(item, index) => item.FullDate + index}
       />
+      <CreateButton />
       <BottomNav />
     </SafeAreaView>
   );
