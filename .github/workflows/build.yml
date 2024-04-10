@@ -69,7 +69,7 @@ jobs:
         run: npm install -g eas-cli 
 
       - name: Install dependencies
-        run: yarn install
+        run: yarn install && npm install --save dotenv 
 
       - name: Build Android APK Bundle
         run: cd EventPlanner && eas build --platform android
