@@ -6,7 +6,7 @@ jobs:
   ios-build:
     name: iOS CI/CD Build
     permissions: write-all
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     steps:
       - name: Setup repo
         uses: actions/checkout@v4
@@ -32,7 +32,7 @@ jobs:
         working-directory: ./EventPlanner
 
       - name: Build iOS app
-        run: eas build --platform ios --local --non-interactive --output ${{ github.workspace }}/app-release.ipa
+        run: eas build --platform ios --non-interactive --output ${{ github.workspace }}/app-release.ipa
         working-directory: ./EventPlanner
 
 
