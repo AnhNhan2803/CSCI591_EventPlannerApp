@@ -32,7 +32,7 @@ jobs:
         working-directory: ./EventPlanner
 
       - name: Build iOS app
-        run: eas build --platform ios --local --profile development
+        run: eas build --platform ios --local --non-interactive --output ${{ github.workspace }}/app-release.ipa
         working-directory: ./EventPlanner
 
 
