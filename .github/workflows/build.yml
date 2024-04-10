@@ -65,6 +65,10 @@ jobs:
           expo-version: latest
           expo-username: ${{ secrets.EXPO_CLI_USERNAME }}
           expo-password: ${{ secrets.EXPO_CLI_PASSWORD }}
+
+      - name: Move to main workspace
+        run: cd EventPlanner 
+
       - name: Setup EAS
         run: npm install -g eas-cli 
 
@@ -72,4 +76,4 @@ jobs:
         run: npm install && npm install --save dotenv && npm i @react-native-firebase/app
 
       - name: Build Android APK Bundle
-        run: cd EventPlanner && eas build --platform android
+        run: eas build --platform android
