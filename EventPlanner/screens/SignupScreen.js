@@ -9,9 +9,18 @@ import { Images, colors, auth } from "../config";
 import { useTogglePasswordVisibility } from "../hooks";
 import { signupValidationSchema } from "../utils";
 
+
+/**
+ * Signup Screen
+ * 
+ * Where users sign up an account to the app through firebase.
+ * This is where the `auth` object is created and stored in `config`.
+ * @param {Navigation} navigation 
+ */
 export const SignupScreen = ({ navigation }) => {
   const [errorState, setErrorState] = useState("");
 
+  // Toggle password visibility config variables
   const {
     passwordVisibility,
     handlePasswordVisibility,
@@ -21,9 +30,16 @@ export const SignupScreen = ({ navigation }) => {
     confirmPasswordVisibility,
   } = useTogglePasswordVisibility();
 
+  /**
+   * Handles signup button pressed by creating the `auth` object and creating
+   * a new authenticated user in Firebase.
+   * 
+   * @param {string, string} values 
+   */
   const handleSignup = async (values) => {
     const { email, password } = values;
 
+    // Authenticated user with email/password with Firebase
     createUserWithEmailAndPassword(auth, email, password).then((userCred) => {
       // Create user object in firestore
       userCred.user.isPushNotification = false;

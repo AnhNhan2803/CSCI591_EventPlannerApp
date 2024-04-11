@@ -8,27 +8,37 @@ import { useForm } from 'react-hook-form';
 import { getFirestore, addDoc } from "firebase/firestore";
 import { app } from '../firebaseConfig';
 
+// Create database object
 const db = getFirestore(app);
 
 const CreateForm = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const handleSubmission = async (data) => await addDoc(collection(db, "events"), {data});
     console.log("Document was written with ID: ", handleSubmission.id);
-    const handleError = (errors) => {};
+
+    /**
+     * Handles any errors that arise?
+     * 
+     * @param {Error} errors
+     */
+    const handleError = (errors) => {
+      console.error("Errors in CreateForm: ", errors)
+    };
 
     const createOptions = {
-        title: {required: "Title is required" },
-        date:   {required: "Date is required "},
-        time: {required: "Time is required"},
-        location: {required: "Location is required"},
-        description: {required: "Description is required"},
-        eventType: {required: "At least one event type is required"},
-        organizer: {}, //set this value to Current User
-        contact: {required: "Contact method is required"}
+      title: {required: "Title is required" },
+      date: {required: "Date is required "},
+      time: {required: "Time is required"},
+      location: {required: "Location is required"},
+      description: {required: "Description is required"},
+      eventType: {required: "At least one event type is required"},
+      organizer: {}, //set this value to Current User
+      contact: {required: "Contact method is required"}
     };
+
     return (
         <form onSubmit={handleSubmit(handleSubmission, handleError)}>
-            <div>
+              <div>
                 <label>Event Title</label>
                 <input name="title" type="text" {...register('title', createOptions.title)}/>
                 <small className="text-danger">
@@ -79,7 +89,6 @@ const CreateForm = () => {
             </div>
         </form>
     )
-
 }
 
 export default CreateForm;
