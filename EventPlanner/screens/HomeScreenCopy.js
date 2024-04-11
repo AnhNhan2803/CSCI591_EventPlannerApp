@@ -1,44 +1,41 @@
-import React from "react";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
   TouchableOpacity,
   StyleSheet,
   Text,
   SafeAreaView,
   FlatList,
-  Button,
 } from "react-native";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../config/firebase";
 import BottomNav from "../components/BottomNav";
-import CreateButton from "../components/CreateButton";
 // import { useNavigation } from "@react-navigation/native";
 import { colors } from "../constants/theme";
 
+
 export const HomeScreen = () => {
-  // const navigation = useNavigation();
   const [events, setEvents] = useState([]);
 
-  //data for events -- will eventually use firebase
-  const eventsData = [
-    {
-      id: 1,
-      name: "Concert",
-      date: "March 28, 2024",
-      description: "UM Band Concert",
-      location: "Adams Center",
-      time: "10:00 AM",
-    },
-    {
-      id: 2,
-      name: "Group Meeting",
-      date: "April 2, 2024",
-      description: "Meeting for our group",
-      location: "SS 402",
-      time: "2:00 PM",
-    },
-    // Add more events as needed
-  ];
+    //data for events -- will eventually use firebase
+    const eventData = [
+      {
+        id: 1,
+        name: "Concert",
+        date: "March 28, 2024",
+        description: "UM Band Concert",
+        location: "Adams Center",
+        time: "10:00 AM",
+      },
+      {
+        id: 2,
+        name: "Group Meeting",
+        date: "April 2, 2024",
+        description: "Meeting for our group",
+        location: "SS 402",
+        time: "2:00 PM",
+      },
+      // Add more events as needed
+    ];
 
   /**
    * Turns a date into a usable object
@@ -48,7 +45,9 @@ export const HomeScreen = () => {
    */
   const parseFullDate = (fullDate) => {
     const [month, day, year] = fullDate.split("/");
-    return new Date(year, month - 1, day);
+    const date = new Date(year, month - 1, day);
+    
+    return date;
   };
 
   /**
@@ -63,8 +62,8 @@ export const HomeScreen = () => {
   /**
    * Sofrts events by date
    * 
-   * @param {list[Object]} events list of events
-   * @returns {list[Object]} list of events sorted based on date
+   * @param {list[eventData]} events list of events
+   * @returns {list[eventData]} list of events sorted based on date
    */
   const sortByDate = (events) => {
     return events.sort((a, b) => {
@@ -73,22 +72,17 @@ export const HomeScreen = () => {
       return dateA - dateB;
     });
   };
-  
+
   // Updates event data state based on Firestore snapshot changes
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const querySnapshot = await getDocs(collection(db, "Events"));
+        const snapshot = await getDocs(collection(db, "Events"));
         const eventData = [];
-        querySnapshot.forEach((doc) => {
+        snapshot.forEach((doc) => {
           eventData.push(doc.data());
         });
-        eventData.sort((a, b) => {
-          const dateA = parseFullDate(a.FullDate);
-          const dateB = parseFullDate(b.FullDate);
-          return dateA - dateB;
-        });
-        setEvents(eventData);
+        setEvents(sortByDate(eventData));
       } catch (error) {
         console.error("Error fetching events:", error);
       }
@@ -97,40 +91,37 @@ export const HomeScreen = () => {
     fetchEvents();
   }, []);
 
-
   /**
    * Renders an event
    * 
    * @param {eventData} event data object for the event
    * @returns Event JSX item
    */
-  const renderItem = ({ item }) => (
+  const renderItem = ({ event }) => (
     <TouchableOpacity style={styles.eventItem}>
-      <Text style={styles.eventName}>{item.Name}</Text>
+      <Text style={styles.eventName}>{event.Name}</Text>
       <Text style={styles.eventInfo}>
-        <Text style={styles.bold}>Date:</Text> {item.FullDate}{" "}
-        <Text style={styles.bold}>Time:</Text> {item.time}
+        <Text style={styles.bold}>Date:</Text> {event.FullDate}{" "}
+        <Text style={styles.bold}>Time:</Text> {event.time}
       </Text>
       <Text style={styles.eventInfo}>
-        <Text style={styles.bold}>Location:</Text> {item.Location}
+        <Text style={styles.bold}>Location:</Text> {event.Location}
       </Text>
-      <Text style={styles.eventDescription}>{item.Description}</Text>
+      <Text style={styles.eventDescription}>{event.Description}</Text>
     </TouchableOpacity>
   );
 
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
-        data={events}
+        data={eventData}
         renderItem={renderItem}
         keyExtractor={(item, index) => item.FullDate + index}
       />
-      <CreateButton />
       <BottomNav />
     </SafeAreaView>
   );
 };
-
 
 const styles = StyleSheet.create({
   container: {
