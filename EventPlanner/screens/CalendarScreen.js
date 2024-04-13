@@ -10,6 +10,8 @@ import {
   ScrollView,
 } from "react-native";
 import BottomNav from "../components/BottomNav";
+import CreateButton from "../components/CreateButton";
+
 // import { useNavigation } from "@react-navigation/native";
 
 const CalendarScreen = () => {
@@ -19,6 +21,7 @@ const CalendarScreen = () => {
       <ScrollView>
         <Text>This is calendar screen</Text>
       </ScrollView>
+      <CreateButton />
       <BottomNav />
     </SafeAreaView>
   );
