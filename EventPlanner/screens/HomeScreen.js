@@ -14,10 +14,12 @@ import BottomNav from "../components/BottomNav";
 import CreateButton from "../components/CreateButton";
 // import { useNavigation } from "@react-navigation/native";
 import { colors } from "../constants/theme";
+import { useNavigation } from "@react-navigation/native";
 
 export const HomeScreen = () => {
   // const navigation = useNavigation();
   const [events, setEvents] = useState([]);
+  const navigation = useNavigation();
 
   //data for events -- will eventually use firebase
   const eventsData = [
@@ -78,7 +80,7 @@ export const HomeScreen = () => {
   }, []);
   // Render each event
   const renderItem = ({ item }) => (
-    <TouchableOpacity style={styles.eventItem}>
+    <TouchableOpacity style={styles.eventItem} onPress={() => navigation.navigate("EventDetailsScreen")}>
       <Text style={styles.eventName}>{item.Name}</Text>
       <Text style={styles.eventInfo}>
         <Text style={styles.bold}>Date:</Text> {item.FullDate}{" "}
