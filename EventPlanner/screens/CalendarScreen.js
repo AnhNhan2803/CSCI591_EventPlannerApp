@@ -1,21 +1,12 @@
 import React from "react";
-import {
-  View,
-  Image,
-  TouchableOpacity,
-  StyleSheet,
-  Text,
-  SafeAreaView,
-  ImageBackground,
-  ScrollView,
-} from "react-native";
+import { StyleSheet, Text, SafeAreaView, ScrollView } from "react-native";
+
 import BottomNav from "../components/BottomNav";
 import CreateButton from "../components/CreateButton";
 
 // import { useNavigation } from "@react-navigation/native";
 
 const CalendarScreen = () => {
-  // const navigation = useNavigation();
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>

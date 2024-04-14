@@ -10,6 +10,11 @@ import { View, TextInput, Button, FormErrorMessage } from "../components";
 export const ForgotPasswordScreen = ({ navigation }) => {
   const [errorState, setErrorState] = useState("");
 
+  /**
+   * Handles password reset form submission
+   * 
+   * @param {string} values Email from form
+   */
   const handleSendPasswordResetEmail = (values) => {
     const { email } = values;
 

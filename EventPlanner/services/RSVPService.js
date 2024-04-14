@@ -14,6 +14,12 @@ import { app } from "../config/firebase.js";
 const db = getFirestore(app);
 
 export const RSVPService = {
+  /**
+   * Sends RSVP status to Firestore
+   *
+   * @param {Object} rsvp RSVP Object storing id and status
+   * @returns
+   */
   storeRSVPInfo: async (rsvp) => {
     try {
       const docRef = await addDoc(collection(db, "rsvps"), rsvp);
@@ -24,9 +30,15 @@ export const RSVPService = {
     }
   },
 
-  retrieveRSVPs: async (eventId) => {
+  /**
+   * Retrieves RSVP information from Firestore
+   *
+   * @param {string} rsvpId Id for RSVP
+   * @returns {Object} RSVP Object
+   */
+  retrieveRSVPs: async (rsvpId) => {
     try {
-      const q = query(collection(db, "rsvps"), where("eventId", "==", eventId));
+      const q = query(collection(db, "rsvps"), where("eventId", "==", rsvpId));
       const querySnapshot = await getDocs(q);
       return querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
     } catch (error) {
@@ -35,6 +47,13 @@ export const RSVPService = {
     }
   },
 
+  /**
+   * Updates RSVP status
+   *
+   * @param {string} rsvpId
+   * @param {boolean} newStatus
+   * @returns {string, boolean} Updated RSVP object
+   */
   updateRSVPStatus: async (rsvpId, newStatus) => {
     try {
       const rsvpDoc = doc(db, "rsvps", rsvpId);

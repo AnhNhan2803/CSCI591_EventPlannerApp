@@ -9,17 +9,30 @@ import { Images, colors, auth } from "../config";
 import { useTogglePasswordVisibility } from "../hooks";
 import { loginValidationSchema } from "../utils";
 
+
+/**
+ * Login Screen
+ * 
+ * Where users log in to the app. This is where the `auth` object is updated
+ * 
+ * @param {Navigation} navigation 
+ */
 export const LoginScreen = ({ navigation }) => {
   const [errorState, setErrorState] = useState("");
-  const { passwordVisibility, handlePasswordVisibility, rightIcon } =
-    useTogglePasswordVisibility();
-
+  const { passwordVisibility, handlePasswordVisibility, rightIcon } = useTogglePasswordVisibility();
+  
+  /**
+   * Handles login information and authenticates user
+   * 
+   * @param {string, string} values email and password from form
+   */
   const handleLogin = (values) => {
     const { email, password } = values;
     signInWithEmailAndPassword(auth, email, password).catch((error) =>
       setErrorState(error.message)
     );
   };
+
   return (
     <>
       <View isSafe style={styles.container}>

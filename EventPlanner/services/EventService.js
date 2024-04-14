@@ -5,6 +5,13 @@ import { app } from "../config/firebase.js";
 const db = getFirestore(app);
 
 export const EventService = {
+  /**
+   * Update the event capacity
+   *
+   * @param {string} eventId
+   * @param {int} newCapacity
+   * @returns {string, int} id, capacity
+   */
   updateEventCapacity: async (eventId, newCapacity) => {
     try {
       const eventDoc = doc(db, "events", eventId);
@@ -16,9 +23,15 @@ export const EventService = {
     }
   },
 
+  /**
+   * Retrieves the event details
+   *
+   * @param {string} eventId
+   * @returns {Object} Snapshot data
+   */
   getEventDetails: async (eventId) => {
     try {
-      const eventDoc = doc(db, "events", eventsId);
+      const eventDoc = doc(db, "events", eventId);
       const docSnap = await getDoc(eventDoc);
 
       if (docSnap.exists()) {
