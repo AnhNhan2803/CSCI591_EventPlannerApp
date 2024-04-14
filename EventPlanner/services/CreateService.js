@@ -1,94 +1,261 @@
 //TODO
 //user authorization check
 //set organizer value to Current User
-//confirmation checks
 
 //uses react-hook-form library for validation
-import { useForm } from 'react-hook-form';
-import { getFirestore, addDoc } from "firebase/firestore";
-import { app } from '../firebaseConfig';
+import { useForm, Controller } from "react-hook-form";
+import { getFirestore, addDoc, collection } from "firebase/firestore";
+import { app } from "../config/firebase";
+import { colors } from "../constants/theme";
+import React, { useState, useEffect } from "react";
+import { auth } from "../config";
+import { useNavigation } from "@react-navigation/native";
+import {
+  Text,
+  View,
+  TextInput,
+  StyleSheet,
+  Alert,
+  Pressable,
+  Button,
+  Touchable,
+  TouchableOpacity,
+} from "react-native";
 
 // Create database object
 const db = getFirestore(app);
 
 const CreateForm = () => {
-    const { register, handleSubmit, formState: { errors } } = useForm();
-    const handleSubmission = async (data) => await addDoc(collection(db, "events"), {data});
-    console.log("Document was written with ID: ", handleSubmission.id);
+  const navigation = useNavigation();
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
-    /**
-     * Handles any errors that arise?
-     * 
-     * @param {Error} errors
-     */
-    const handleError = (errors) => {
-      console.error("Errors in CreateForm: ", errors)
-    };
+  //cancel button
+  const handleCancelButton = () => {
+    Alert.alert("Cancel", "Do you want to cancel creating this event?", [
+      {
+        text: "Yes",
+        onPress: () => navigation.navigate("HomeScreen"),
+        style: "cancel",
+      },
+      {
+        text: "No",
+        onPress: () => console.log("Didn't cancel"),
+      },
+    ]);
+  };
 
-    const createOptions = {
-      title: {required: "Title is required" },
-      date: {required: "Date is required "},
-      time: {required: "Time is required"},
-      location: {required: "Location is required"},
-      description: {required: "Description is required"},
-      eventType: {required: "At least one event type is required"},
-      organizer: {}, //set this value to Current User
-      contact: {required: "Contact method is required"}
-    };
+  //submit button
+  const handleSubmission = (data) => {
+    Alert.alert("Submit", "Do you want to post this event?", [
+      {
+        text: "Yes",
+        onPress: async () => {
+          const docRef = await addDoc(collection(db, "Events"), { data });
+          navigation.navigate("HomeScreen");
+        },
+      },
+      {
+        text: "No",
+        onPress: () => console.log("Didn't submit"),
+      },
+    ]);
+  };
 
-    return (
-        <form onSubmit={handleSubmit(handleSubmission, handleError)}>
-              <div>
-                <label>Event Title</label>
-                <input name="title" type="text" {...register('title', createOptions.title)}/>
-                <small className="text-danger">
-                    {errors?.name && errors.name.message}
-                </small>
-            </div>
-            <div>
-                <label>Date of event</label>
-                <input name="date" type="text" {...register('date', createOptions.date)}/>
-                <small className="text-danger">
-                    {errors?.name && errors.name.message}
-                </small>
-            </div>
-            <div>
-                <label>Time of event</label>
-                <input name="time" type="text" {...register('time', createOptions.time)}/>
-                <small className="text-danger">
-                    {errors?.name && errors.name.message}
-                </small>
-            </div>
-            <div>
-                <label>Location</label>
-                <input name="location" type="text" {...register('location', createOptions.location)}/>
-                <small className="text-danger">
-                    {errors?.name && errors.name.message}
-                </small>
-            </div>
-            <div>
-                <label>Description of Event</label>
-                <input name="description" type="text" {...register('description', createOptions.description)}/>
-                <small className="text-danger">
-                    {errors?.name && errors.name.message}
-                </small>
-            </div>
-            <div>
-                <label>Type of event</label>
-                <input name="eventType" type="text" {...register('eventType', createOptions.eventType)}/>
-                <small className="text-danger">
-                    {errors?.name && errors.name.message}
-                </small>
-            </div>
-            <div>
-                <label>Contact for Event</label>
-                <input name="contact" type="text" {...register('contact', createOptions.contact)}/>
-                <small className="text-danger">
-                    {errors?.name && errors.name.message}
-                </small>
-            </div>
-        </form>
-    )
-}
+  return (
+    <>
+      <View style={styles.View}>
+        <Controller
+          control={control}
+          rules={{
+            required: true,
+          }}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <TextInput
+              style={styles.TextInput}
+              placeholder="Title"
+              onBlur={onBlur}
+              onChangeText={onChange}
+              value={value}
+            />
+          )}
+          name="title"
+        />
+        {errors.title && <Text style={styles.Text}>This is required.</Text>}
+        <Controller
+          control={control}
+          rules={{
+            required: true,
+          }}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <TextInput
+              style={styles.TextInput}
+              placeholder="Organizer"
+              onBlur={onBlur}
+              onChangeText={onChange}
+              value={value}
+            />
+          )}
+          name="organizer"
+        />
+        {errors.title && <Text style={styles.Text}>This is required.</Text>}
+
+        <Controller
+          control={control}
+          rules={{
+            required: true,
+          }}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <TextInput
+              style={styles.TextInput}
+              placeholder="Date"
+              onBlur={onBlur}
+              onChangeText={onChange}
+              value={value}
+            />
+          )}
+          name="date"
+        />
+        {errors.date && <Text style={styles.Text}>This is required.</Text>}
+
+        <Controller
+          control={control}
+          rules={{
+            required: true,
+          }}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <TextInput
+              style={styles.TextInput}
+              placeholder="Time"
+              onBlur={onBlur}
+              onChangeText={onChange}
+              value={value}
+            />
+          )}
+          name="time"
+        />
+        {errors.time && <Text style={styles.Text}>This is required.</Text>}
+
+        <Controller
+          control={control}
+          rules={{
+            required: true,
+          }}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <TextInput
+              style={styles.TextInput}
+              placeholder="Location"
+              onBlur={onBlur}
+              onChangeText={onChange}
+              value={value}
+            />
+          )}
+          name="location"
+        />
+        {errors.location && <Text style={styles.Text}>This is required.</Text>}
+
+        <Controller
+          control={control}
+          rules={{
+            required: true,
+          }}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <TextInput
+              style={styles.TextInput}
+              placeholder="Description"
+              onBlur={onBlur}
+              onChangeText={onChange}
+              value={value}
+            />
+          )}
+          name="description"
+        />
+        {errors.description && (
+          <Text style={styles.Text}>This is required.</Text>
+        )}
+
+        <Controller
+          control={control}
+          rules={{
+            required: true,
+          }}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <TextInput
+              style={styles.TextInput}
+              placeholder="Type of event, separate by commas"
+              onBlur={onBlur}
+              onChangeText={onChange}
+              value={value}
+            />
+          )}
+          name="type"
+        />
+        {errors.type && <Text style={styles.Text}>This is required.</Text>}
+
+        <Controller
+          control={control}
+          rules={{
+            required: true,
+          }}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <TextInput
+              style={styles.TextInput}
+              placeholder="Contact for event"
+              onBlur={onBlur}
+              onChangeText={onChange}
+              value={value}
+            />
+          )}
+          name="contact"
+        />
+        {errors.contact && <Text style={styles.Text}>This is required.</Text>}
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={handleSubmit(handleSubmission)}
+          >
+            <Text>Submit</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.button} onPress={handleCancelButton}>
+            <Text>Cancel</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    </>
+  );
+};
 
 export default CreateForm;
+
+const styles = StyleSheet.create({
+  View: {
+    alignItems: "center",
+    backgroundColor: colors.maroon,
+  },
+  buttonContainer: {
+    paddingHorizontal: 10,
+    flexDirection: "row",
+  },
+  Text: {
+    color: colors.white,
+  },
+  button: {
+    alignItems: "center",
+    backgroundColor: colors.copper,
+    margin: 10,
+    padding: 10,
+  },
+  TextInput: {
+    backgroundColor: colors.white,
+    borderRadius: 8,
+    flexDirection: "row",
+    padding: 12,
+    marginVertical: 12,
+    width: "80%",
+    borderWidth: 1,
+    borderColor: colors.mediumGray,
+  },
+});

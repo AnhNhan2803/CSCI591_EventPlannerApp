@@ -1,15 +1,15 @@
 // EventPlanner/services/EventService.js
 import { getFirestore, doc, updateDoc, getDoc } from "firebase/firestore";
-import { app } from '../firebaseConfig';
+import { app } from "../config/firebase.js";
 
 const db = getFirestore(app);
 
 export const EventService = {
   /**
    * Update the event capacity
-   * 
-   * @param {string} eventId 
-   * @param {int} newCapacity 
+   *
+   * @param {string} eventId
+   * @param {int} newCapacity
    * @returns {string, int} id, capacity
    */
   updateEventCapacity: async (eventId, newCapacity) => {
@@ -25,8 +25,8 @@ export const EventService = {
 
   /**
    * Retrieves the event details
-   * 
-   * @param {string} eventId 
+   *
+   * @param {string} eventId
    * @returns {Object} Snapshot data
    */
   getEventDetails: async (eventId) => {
@@ -42,7 +42,6 @@ export const EventService = {
     } catch (error) {
       console.error("Error getting event details: ", error);
       throw new Error(error.message);
-
     }
   },
 

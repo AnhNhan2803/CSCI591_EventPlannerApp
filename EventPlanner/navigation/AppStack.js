@@ -5,6 +5,8 @@ import { Text, StyleSheet } from "react-native";
 import { colors } from "../config";
 import CalendarScreen from "../screens/CalendarScreen";
 import ProfileScreen from "../screens/ProfileScreen";
+import CreateScreen from "../screens/CreateScreen";
+import EventDetailsScreen from "../screens/EventDetailsScreen";
 
 const Stack = createStackNavigator();
 
@@ -27,6 +29,8 @@ export const AppStack = () => {
       />
       <Stack.Screen name="CalendarScreen" component={CalendarScreen} />
       <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
+      <Stack.Screen name="CreateScreen" component={CreateScreen} />
+      <Stack.Screen name="EventDetailsScreen" component={EventDetailsScreen} />
     </Stack.Navigator>
   );
 };

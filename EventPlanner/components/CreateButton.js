@@ -1,18 +1,43 @@
-//TODO
-//make sure this works with overall navigation
-//insert home screen and calendar screen
+import Icon from "react-native-vector-icons/Ionicons";
+import { useNavigation } from "@react-navigation/native";
+import React from "react";
+import {TouchableOpacity, StyleSheet, View} from 'react-native';
+import { colors } from "../constants/theme";
 
 
-import {Button } from 'react-native';
-
-const createButton = ({ navigation }) => {
+const CreateButton = () => {
+  const navigation = useNavigation();
+  const iconSize = 50;
 
     return(
-        <Button
-        title="+"
-        onPress={() => navigation.navigate('Create')}
-      />
+      <>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => navigation.navigate("CreateScreen")}
+          >
+          <Icon
+            name="add-outline"
+            size={iconSize}
+            color={colors.white}
+          />
+          </TouchableOpacity>
+      </>
     );
 }
 
-export default createButton;
+export default CreateButton;
+
+const styles = StyleSheet.create({
+  button: {
+    padding: 10,
+    position: "absolute",
+    backgroundColor: "#1d3c34", 
+    borderRadius: 70, 
+    alignItems: "center",
+    width: 70,
+    height: 70,
+    bottom: 120, 
+    left: 380, 
+  },
+
+  });

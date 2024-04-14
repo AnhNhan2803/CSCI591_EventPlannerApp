@@ -1,15 +1,24 @@
 // EventPlanner/services/RSVPService.js
-import { getFirestore, collection, addDoc, where, query, getDocs, doc, updateDoc } from "firebase/firestore";
-import { app } from '../firebaseConfig';
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  where,
+  query,
+  getDocs,
+  doc,
+  updateDoc,
+} from "firebase/firestore";
+import { app } from "../config/firebase.js";
 
 const db = getFirestore(app);
 
 export const RSVPService = {
   /**
    * Sends RSVP status to Firestore
-   * 
-   * @param {Object} rsvp RSVP Object storing id and status 
-   * @returns 
+   *
+   * @param {Object} rsvp RSVP Object storing id and status
+   * @returns
    */
   storeRSVPInfo: async (rsvp) => {
     try {
@@ -23,7 +32,7 @@ export const RSVPService = {
 
   /**
    * Retrieves RSVP information from Firestore
-   * 
+   *
    * @param {string} rsvpId Id for RSVP
    * @returns {Object} RSVP Object
    */
@@ -31,20 +40,18 @@ export const RSVPService = {
     try {
       const q = query(collection(db, "rsvps"), where("eventId", "==", rsvpId));
       const querySnapshot = await getDocs(q);
-      return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-
+      return querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
     } catch (error) {
       console.error("Error retrieving RSVPs: ", error);
       throw new Error(error.message);
-
     }
   },
 
   /**
    * Updates RSVP status
-   * 
-   * @param {string} rsvpId 
-   * @param {boolean} newStatus 
+   *
+   * @param {string} rsvpId
+   * @param {boolean} newStatus
    * @returns {string, boolean} Updated RSVP object
    */
   updateRSVPStatus: async (rsvpId, newStatus) => {
@@ -57,6 +64,6 @@ export const RSVPService = {
       throw new Error(error.message);
     }
   },
-  
+
   // Add more methods later
 };
