@@ -8,19 +8,19 @@ import {
   Switch,
   Button,
 } from "react-native";
+
 import BottomNav from "../components/BottomNav";
 import Icon from "react-native-vector-icons/Ionicons";
 import { colors } from "../constants/theme";
 import { auth } from "../config";
 import { signOut } from "firebase/auth";
 
+
 /**
- * User Profile Screen
+ * Profile Screen
  *
  * Where the user can adjust their profile and settings. Possible where
  * the user can requrest access to upgrade acount to super user status.
- *
- * @returns void
  */
 const ProfileScreen = ({ navigation }) => {
   const [pushNotification, setPushNotification] = useState(false);
@@ -43,29 +43,41 @@ const ProfileScreen = ({ navigation }) => {
     user.isEmailNotification ? setEmailNotification(true) : setEmailNotification(false);
   }, [user]);
 
+  /**
+   * Handles the state of push notifications in DOM and Firebase
+   * 
+   * @param {boolean} value 
+   */
   function handlePushNotificationChange(value) {
     setPushNotification(value);
     // Call some function here to enable push notifications on device
     auth.currentUser.isPushNotification = value;
   };
 
+  /**
+   * Handles the state of email notifications in DOM and Firebase
+   * 
+   * @param {boolean} value 
+   */
   function handleEmailNotificationChange(value) {
     setEmailNotification(value);
     // Call some function here to enable email notifications on device
     auth.currentUser.isEmailNotification = value;
   };
 
-  // Sign out functionality
+  /**
+   * Handles button press to sign out user
+   */
   const handleLogout = () => {
     signOut(auth).catch((error) => console.log("Error logging out: ", error));
   };
 
-  // Sign in functionality
+  // DEPRICATED: Sign in functionality
   const handleSignIn = () => {
     console.log("SIGN IN PRESSED");
   };
 
-  // Sign in functionality
+  // DEPRICATED: Sign in functionality
   const handleRegister = () => {
     console.log("REGISTER PRESSED");
   };
