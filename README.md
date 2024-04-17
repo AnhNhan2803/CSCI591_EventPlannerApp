@@ -24,4 +24,6 @@ That's it!
 Congratulations! You've successfully run and modified your first React Native app.
 
 ## Setup Unit test
+$ cd EventPlanner
 $ npx expo install jest-expo jest
+$ npm run test
