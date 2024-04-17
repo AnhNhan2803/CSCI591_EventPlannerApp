@@ -6,8 +6,6 @@ import {
   Text,
   SafeAreaView,
   FlatList,
-  Button,
-  ImageBackground,
   Image,
 } from "react-native";
 import { collection, getDocs } from "firebase/firestore";
@@ -123,11 +121,7 @@ export const HomeScreen = () => {
   );
 
   return (
-    <ImageBackground
-    source={require('../assets/low-poly-bg.png')}
-    // resizeMode="cover"
-    style={styles.backgroundImage}
-    >
+    <BgWrapper>
       <Image source={require('../assets/wave-spacer.png')} />
       <SafeAreaView style={styles.container}>
         <FlatList
@@ -138,7 +132,7 @@ export const HomeScreen = () => {
         <CreateButton />
         <BottomNav />
       </SafeAreaView>
-    </ImageBackground>
+    </BgWrapper>
   );
 };
 
@@ -181,8 +175,5 @@ const styles = StyleSheet.create({
   eventDescription: {
     fontSize: 16,
     color: colors.medium,
-  },
-  backgroundImage: {
-    flex: 1,
   }
 });

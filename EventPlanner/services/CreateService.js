@@ -5,10 +5,7 @@
 //uses react-hook-form library for validation
 import { useForm, Controller } from "react-hook-form";
 import { addDoc, collection } from "firebase/firestore";
-import { db } from "../config/firebase";
-import { colors } from "../constants/theme";
-import React, { useState, useEffect } from "react";
-import { auth } from "../config";
+import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import {
   Text,
@@ -17,9 +14,48 @@ import {
   StyleSheet,
   Alert,
   TouchableOpacity,
+  Button,
+  SafeAreaView
 } from "react-native";
+import DateTimePicker from '@react-native-community/datetimepicker';
 
-const CreateForm = () => {
+import { db } from "../config/firebase";
+import { colors } from "../constants/theme";
+
+const FormItem = ({ control, name, err, ph="", required=true }) => {
+  return (
+    <View style={styles.formItemContainer}>
+      <Text style={styles.rowTitle}>{name.toUpperCase()}{required && "*"}</Text>
+      <Controller
+        control={control}
+        rules={{
+          required: required,
+        }}
+        render={({ field: { onChange, onBlur, value } }) => (
+          <TextInput
+            style={[styles.textInput, err ? styles.borderErr : styles.borderDefault]}
+            placeholder={ph}
+            onBlur={onBlur}
+            onChangeText={onChange}
+            value={value}
+            placeholderTextColor={colors.medium}
+          />
+        )}
+        name={name.toLowerCase()}
+      />
+    </View>
+  )
+}
+
+export default CreateForm = () => {
+  const [date, setDate] = useState(new Date());
+
+  const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate;
+    setDate(currentDate);
+    console.log(date)
+  };
+
   const navigation = useNavigation();
   const {
     control,
@@ -31,13 +67,14 @@ const CreateForm = () => {
   const handleCancelButton = () => {
     Alert.alert("Cancel", "Do you want to cancel creating this event?", [
       {
-        text: "Yes",
-        onPress: () => navigation.navigate("HomeScreen"),
+        text: "No",
+        onPress: () => console.log("Didn't cancel"),
         style: "cancel",
       },
       {
-        text: "No",
-        onPress: () => console.log("Didn't cancel"),
+        text: "Yes",
+        // TODO: Submission logic controlled here. Be sure to include Date state (not included in form instance)
+        onPress: () => navigation.navigate("HomeScreen"),
       },
     ]);
   };
@@ -59,170 +96,51 @@ const CreateForm = () => {
     ]);
   };
 
+  let isErr = Object.keys(errors).length > 0;
+
   return (
     <>
-      <View style={styles.View}>
-        <Controller
-          control={control}
-          rules={{
-            required: true,
-          }}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <TextInput
-              style={styles.TextInput}
-              placeholder="Title"
-              onBlur={onBlur}
-              onChangeText={onChange}
-              value={value}
-              placeholderTextColor={colors.dark}
-            />
-          )}
-          name="title"
-        />
-        {errors.title && <Text style={styles.Text}>This is required.</Text>}
-        <Controller
-          control={control}
-          rules={{
-            required: true,
-          }}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <TextInput
-              style={styles.TextInput}
-              placeholder="Organizer"
-              onBlur={onBlur}
-              onChangeText={onChange}
-              value={value}
-              placeholderTextColor={colors.dark}
-            />
-          )}
-          name="organizer"
-        />
-        {errors.title && <Text style={styles.Text}>This is required.</Text>}
+      <View style={styles.view}>
+        <FormItem control={control} name={"Title"} err={errors.title} ph={"What's your event called?"} />
+        <FormItem control={control} name={"Organizer"} err={errors.organizer} ph={"Who's organizing your event?"} />
+        <FormItem control={control} name={"Location"} err={errors.location} ph={"Where's your event?"} />
+        <FormItem control={control} name={"Description"} err={errors.description} ph={"Tell us about your event!"} />
+        <FormItem control={control} name={"Tags"} err={errors.tags} ph={"**WORK IN PROGRESS**"} />
 
-        <Controller
-          control={control}
-          rules={{
-            required: true,
-          }}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <TextInput
-              style={styles.TextInput}
-              placeholder="Date"
-              onBlur={onBlur}
-              onChangeText={onChange}
-              value={value}
-              placeholderTextColor={colors.dark}
-            />
-          )}
-          name="date"
-        />
-        {errors.date && <Text style={styles.Text}>This is required.</Text>}
+        <View style={styles.dateTimeContainer}>
+          <Text style={styles.rowTitle}>DATE AND TIME*</Text>
+            <View style={styles.dateTimeSubContainer}>
+              <DateTimePicker
+                style={styles.dateTimePicker}
+                testID="dateAndTime"
+                value={date}
+                mode="date"
+                is24Hour={true}
+                onChange={onChange}
+              />
+              <DateTimePicker
+                style={styles.dateTimePicker}
+                testID="dateAndTime"
+                value={date}
+                mode="time"
+                is24Hour={true}
+                onChange={onChange}
+              />
+            </View>
+        </View>
 
-        <Controller
-          control={control}
-          rules={{
-            required: true,
-          }}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <TextInput
-              style={styles.TextInput}
-              placeholder="Time"
-              onBlur={onBlur}
-              onChangeText={onChange}
-              value={value}
-              placeholderTextColor={colors.dark}
-            />
-          )}
-          name="time"
-        />
-        {errors.time && <Text style={styles.Text}>This is required.</Text>}
+        {isErr && <Text style={styles.errText}>You're missing something!</Text>}
 
-        <Controller
-          control={control}
-          rules={{
-            required: true,
-          }}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <TextInput
-              style={styles.TextInput}
-              placeholder="Location"
-              onBlur={onBlur}
-              onChangeText={onChange}
-              value={value}
-              placeholderTextColor={colors.dark}
-            />
-          )}
-          name="location"
-        />
-        {errors.location && <Text style={styles.Text}>This is required.</Text>}
-
-        <Controller
-          control={control}
-          rules={{
-            required: true,
-          }}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <TextInput
-              style={styles.TextInput}
-              placeholder="Description"
-              onBlur={onBlur}
-              onChangeText={onChange}
-              value={value}
-              placeholderTextColor={colors.dark}
-            />
-          )}
-          name="description"
-        />
-        {errors.description && (
-          <Text style={styles.Text}>This is required.</Text>
-        )}
-
-        <Controller
-          control={control}
-          rules={{
-            required: true,
-          }}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <TextInput
-              style={styles.TextInput}
-              placeholder="Type of event, separate by commas"
-              onBlur={onBlur}
-              onChangeText={onChange}
-              value={value}
-              placeholderTextColor={colors.dark}
-            />
-          )}
-          name="type"
-        />
-        {errors.type && <Text style={styles.Text}>This is required.</Text>}
-
-        <Controller
-          control={control}
-          rules={{
-            required: true,
-          }}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <TextInput
-              style={styles.TextInput}
-              placeholder="Contact for event"
-              onBlur={onBlur}
-              onChangeText={onChange}
-              value={value}
-              placeholderTextColor={colors.dark}
-            />
-          )}
-          name="contact"
-        />
-        {errors.contact && <Text style={styles.Text}>This is required.</Text>}
         <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.button} onPress={handleCancelButton}>
-            <Text>Cancel</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={handleSubmit(handleSubmission)}
-          >
-            <Text>Submit</Text>
+          <TouchableOpacity>
+            <View style={[ styles.button, isErr ? styles.buttonError : styles.buttonSuccess ]}>
+              <Button
+                title="Submit"
+                onPress={handleSubmit(handleSubmission)}
+                color={colors.white}
+                disabled={isErr}
+              />
+            </View>
           </TouchableOpacity>
         </View>
       </View>
@@ -230,24 +148,22 @@ const CreateForm = () => {
   );
 };
 
-export default CreateForm;
-
 const styles = StyleSheet.create({
-  View: {
+  view: {
     alignItems: "center",
-    backgroundColor: colors.maroon,
+    backgroundColor: "transparent",
   },
   buttonContainer: {
     paddingHorizontal: 10,
     flexDirection: "row",
   },
-  Text: {
-    color: colors.white,
+  errText: {
+    color: colors.danger,
+    fontSize: 20,
+    paddingBottom: 10,
   },
   button: {
-    backgroundColor: colors.maroon,
-    color: colors.white,
-    padding: 20,
+    padding: 10,
     borderRadius: 10,
   },
   buttonContainer: {
@@ -257,14 +173,52 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     gap: 15,
   },
-  TextInput: {
+  textInput: {
     backgroundColor: colors.white,
     borderRadius: 8,
     flexDirection: "row",
     padding: 12,
     marginVertical: 12,
-    width: "80%",
-    borderWidth: 1,
-    borderColor: colors.dark,
+    width: "100%",
   },
+  borderDefault: {
+    borderWidth: 1,
+    borderColor: colors.medium,
+  },
+  borderErr: {
+    borderWidth: 2,
+    borderColor: colors.danger,
+  },
+  rowTitle: {
+    color: colors.dark,
+    fontSize: 14,
+    margin: 0,
+  },
+  formItemContainer: {
+    display: 'flex',
+    width: '90%',
+    gap: -6,
+  },
+  buttonError: {
+    backgroundColor: colors.danger,
+  },
+  buttonSuccess: {
+    backgroundColor: colors.maroon,
+  },
+  dateTimeContainer: {
+    display: "flex",
+    flexDirection: 'column',
+    alignItems: 'center',
+    width: '90%',
+    marginBottom: 20,
+  },
+  dateTimeSubContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'nowrap',
+    justifyContent: 'center',
+    padding: 10,
+    backgroundColor: colors.maroon,
+    borderRadius: 10,
+  }
 });
