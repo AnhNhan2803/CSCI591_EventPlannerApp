@@ -14,6 +14,7 @@ const CreateButton = () => {
           <TouchableOpacity
             style={styles.button}
             onPress={() => navigation.navigate("CreateScreen")}
+            testID="create-button"
           >
           <Icon
             name="add-outline"
