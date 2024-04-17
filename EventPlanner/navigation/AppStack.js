@@ -20,6 +20,7 @@ export const AppStack = () => {
           title: "Events",
           headerStyle: {
             backgroundColor: colors.maroon,
+            borderBottomWidth: 0,
           },
           headerTintColor: colors.white,
           headerTitleStyle: {

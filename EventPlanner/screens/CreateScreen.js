@@ -6,19 +6,17 @@ import {ScrollView, StyleSheet, SafeAreaView} from 'react-native';
 
 
 const CreateScreen = () => {
-
-
-    return(
-        <ScrollView style={styles.View}>
-            <CreateForm />
-        </ScrollView>
-    );
+  return(
+    <ScrollView style={styles.View}>
+      <CreateForm />
+    </ScrollView>
+  );
 };
  
 export default CreateScreen;
 
 const styles = StyleSheet.create({
-    View: {
-      backgroundColor: colors.maroon, 
-    },
+  View: {
+    backgroundColor: colors.maroon, 
+  },
 });

@@ -4,8 +4,8 @@
 
 //uses react-hook-form library for validation
 import { useForm, Controller } from "react-hook-form";
-import { getFirestore, addDoc, collection } from "firebase/firestore";
-import { app } from "../config/firebase";
+import { addDoc, collection } from "firebase/firestore";
+import { db } from "../config/firebase";
 import { colors } from "../constants/theme";
 import React, { useState, useEffect } from "react";
 import { auth } from "../config";
@@ -16,14 +16,8 @@ import {
   TextInput,
   StyleSheet,
   Alert,
-  Pressable,
-  Button,
-  Touchable,
   TouchableOpacity,
 } from "react-native";
-
-// Create database object
-const db = getFirestore(app);
 
 const CreateForm = () => {
   const navigation = useNavigation();
@@ -52,15 +46,15 @@ const CreateForm = () => {
   const handleSubmission = (data) => {
     Alert.alert("Submit", "Do you want to post this event?", [
       {
+        text: "No",
+        onPress: () => console.log("Didn't submit"),
+      },
+      {
         text: "Yes",
         onPress: async () => {
           const docRef = await addDoc(collection(db, "Events"), { data });
           navigation.navigate("HomeScreen");
         },
-      },
-      {
-        text: "No",
-        onPress: () => console.log("Didn't submit"),
       },
     ]);
   };
@@ -80,6 +74,7 @@ const CreateForm = () => {
               onBlur={onBlur}
               onChangeText={onChange}
               value={value}
+              placeholderTextColor={colors.dark}
             />
           )}
           name="title"
@@ -97,6 +92,7 @@ const CreateForm = () => {
               onBlur={onBlur}
               onChangeText={onChange}
               value={value}
+              placeholderTextColor={colors.dark}
             />
           )}
           name="organizer"
@@ -115,6 +111,7 @@ const CreateForm = () => {
               onBlur={onBlur}
               onChangeText={onChange}
               value={value}
+              placeholderTextColor={colors.dark}
             />
           )}
           name="date"
@@ -133,6 +130,7 @@ const CreateForm = () => {
               onBlur={onBlur}
               onChangeText={onChange}
               value={value}
+              placeholderTextColor={colors.dark}
             />
           )}
           name="time"
@@ -151,6 +149,7 @@ const CreateForm = () => {
               onBlur={onBlur}
               onChangeText={onChange}
               value={value}
+              placeholderTextColor={colors.dark}
             />
           )}
           name="location"
@@ -169,6 +168,7 @@ const CreateForm = () => {
               onBlur={onBlur}
               onChangeText={onChange}
               value={value}
+              placeholderTextColor={colors.dark}
             />
           )}
           name="description"
@@ -189,6 +189,7 @@ const CreateForm = () => {
               onBlur={onBlur}
               onChangeText={onChange}
               value={value}
+              placeholderTextColor={colors.dark}
             />
           )}
           name="type"
@@ -207,20 +208,21 @@ const CreateForm = () => {
               onBlur={onBlur}
               onChangeText={onChange}
               value={value}
+              placeholderTextColor={colors.dark}
             />
           )}
           name="contact"
         />
         {errors.contact && <Text style={styles.Text}>This is required.</Text>}
         <View style={styles.buttonContainer}>
+        <TouchableOpacity style={styles.button} onPress={handleCancelButton}>
+            <Text>Cancel</Text>
+          </TouchableOpacity>
           <TouchableOpacity
             style={styles.button}
             onPress={handleSubmit(handleSubmission)}
           >
             <Text>Submit</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.button} onPress={handleCancelButton}>
-            <Text>Cancel</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -243,10 +245,17 @@ const styles = StyleSheet.create({
     color: colors.white,
   },
   button: {
-    alignItems: "center",
-    backgroundColor: colors.copper,
-    margin: 10,
-    padding: 10,
+    backgroundColor: colors.maroon,
+    color: colors.white,
+    padding: 20,
+    borderRadius: 10,
+  },
+  buttonContainer: {
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+    paddingBottom: 10,
+    paddingHorizontal: 10,
+    gap: 15,
   },
   TextInput: {
     backgroundColor: colors.white,
@@ -256,6 +265,6 @@ const styles = StyleSheet.create({
     marginVertical: 12,
     width: "80%",
     borderWidth: 1,
-    borderColor: colors.mediumGray,
+    borderColor: colors.dark,
   },
 });
