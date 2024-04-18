@@ -87,7 +87,7 @@ export const HomeScreen = () => {
   const renderItem = ({ item }) => (
     <TouchableOpacity
       style={styles.eventItem}
-      onPress={() => navigation.navigate("CardView", { item, navigation })}
+      onPress={() => navigation.navigate("CardView", { item })}
     >
       <Text style={styles.eventName}>{item.Name}</Text>
       <Text style={styles.eventInfo}>
@@ -103,12 +103,13 @@ export const HomeScreen = () => {
 
   return (
     <SafeAreaView style={styles.container}>
+      <CreateButton />
+
       <FlatList
         data={events}
         renderItem={renderItem}
         keyExtractor={(item, index) => item.FullDate + index}
       />
-      <CreateButton />
       <BottomNav />
     </SafeAreaView>
   );
