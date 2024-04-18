@@ -2,6 +2,7 @@ import Icon from "react-native-vector-icons/Ionicons";
 import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import { TouchableOpacity, StyleSheet, View } from "react-native";
+
 import { colors } from "../constants/theme";
 
 const CreateButton = () => {
@@ -20,18 +21,18 @@ const CreateButton = () => {
   );
 };
 
-export default CreateButton;
-
 const styles = StyleSheet.create({
   button: {
     padding: 10,
-    margin: 10,
-    position: "relative",
-    backgroundColor: "#1d3c34",
+    position: "absolute",
+    backgroundColor: colors.dark,
     borderRadius: 70,
-    alignSelf: "center",
     alignItems: "center",
     width: 70,
     height: 70,
+    bottom: 100,
+    right: 20,
   },
 });
+
+export default CreateButton;
