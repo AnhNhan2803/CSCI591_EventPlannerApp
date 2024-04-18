@@ -21,30 +21,9 @@ export const HomeScreen = () => {
   const [events, setEvents] = useState([]);
   const navigation = useNavigation();
 
-  //data for events -- will eventually use firebase
-  const eventsData = [
-    {
-      id: 1,
-      name: "Concert",
-      date: "March 28, 2024",
-      description: "UM Band Concert",
-      location: "Adams Center",
-      time: "10:00 AM",
-    },
-    {
-      id: 2,
-      name: "Group Meeting",
-      date: "April 2, 2024",
-      description: "Meeting for our group",
-      location: "SS 402",
-      time: "2:00 PM",
-    },
-    // Add more events as needed
-  ];
-
   /**
    * Turns a date into a usable object
-   * 
+   *
    * @param {string} fullDate Full date separated by '/'
    * @returns {Date} Date object
    */
@@ -64,7 +43,7 @@ export const HomeScreen = () => {
 
   /**
    * Sofrts events by date
-   * 
+   *
    * @param {list[Object]} events list of events
    * @returns {list[Object]} list of events sorted based on date
    */
@@ -75,7 +54,7 @@ export const HomeScreen = () => {
       return dateA - dateB;
     });
   };
-  
+
   // Updates event data state based on Firestore snapshot changes
   useEffect(() => {
     const fetchEvents = async () => {
@@ -99,15 +78,17 @@ export const HomeScreen = () => {
     fetchEvents();
   }, []);
 
-
   /**
    * Renders an event
-   * 
+   *
    * @param {eventData} event data object for the event
    * @returns Event JSX item
    */
   const renderItem = ({ item }) => (
-    <TouchableOpacity style={styles.eventItem} onPress={() => navigation.navigate("EventDetailsScreen")}>
+    <TouchableOpacity
+      style={styles.eventItem}
+      onPress={() => navigation.navigate("CardView", { item, navigation })}
+    >
       <Text style={styles.eventName}>{item.Name}</Text>
       <Text style={styles.eventInfo}>
         <Text style={styles.bold}>Date:</Text> {item.FullDate}{" "}
@@ -135,7 +116,6 @@ export const HomeScreen = () => {
     </BgWrapper>
   );
 };
-
 
 const styles = StyleSheet.create({
   container: {
@@ -177,3 +157,4 @@ const styles = StyleSheet.create({
     color: colors.medium,
   }
 });
+

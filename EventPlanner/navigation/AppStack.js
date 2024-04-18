@@ -7,6 +7,7 @@ import CalendarScreen from "../screens/CalendarScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 import CreateScreen from "../screens/CreateScreen";
 import EventDetailsScreen from "../screens/EventDetailsScreen";
+import CardView from "../components/CardView";
 
 
 const Stack = createStackNavigator();
@@ -78,7 +79,7 @@ export const AppStack = () => {
           },
         }}
       />
-        
+
     </Stack.Navigator>
   );
 };

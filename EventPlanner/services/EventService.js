@@ -12,6 +12,7 @@ export const EventService = {
    * @param {int} newCapacity
    * @returns {string, int} id, capacity
    */
+
   updateEventCapacity: async (eventId, newCapacity) => {
     try {
       const eventDoc = doc(db, "events", eventId);
