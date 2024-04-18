@@ -6,7 +6,7 @@ import {
   Text,
   SafeAreaView,
   FlatList,
-  Button,
+  Image,
 } from "react-native";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../config/firebase";
@@ -121,15 +121,18 @@ export const HomeScreen = () => {
   );
 
   return (
-    <SafeAreaView style={styles.container}>
-      <FlatList
-        data={events}
-        renderItem={renderItem}
-        keyExtractor={(item, index) => item.FullDate + index}
-      />
-      <CreateButton />
-      <BottomNav />
-    </SafeAreaView>
+    <BgWrapper>
+      <Image source={require('../assets/wave-spacer.png')} />
+      <SafeAreaView style={styles.container}>
+        <FlatList
+          data={events}
+          renderItem={renderItem}
+          keyExtractor={(item, index) => item.FullDate + index}
+        />
+        <CreateButton />
+        <BottomNav />
+      </SafeAreaView>
+    </BgWrapper>
   );
 };
 
@@ -137,7 +140,7 @@ export const HomeScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.light,
+    backgroundColor: 'transparent',
     // marginTop: 20,
   },
   eventItem: {
@@ -172,5 +175,5 @@ const styles = StyleSheet.create({
   eventDescription: {
     fontSize: 16,
     color: colors.medium,
-  },
+  }
 });
