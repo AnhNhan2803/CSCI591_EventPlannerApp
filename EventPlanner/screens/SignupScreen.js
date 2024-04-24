@@ -47,6 +47,7 @@ export const SignupScreen = ({ navigation }) => {
       userCred.user.isAdmin = email.split('@')[0].splice(-1) == 'e' ? true : false;
       userCred.user.netId = email.split('@')[0];
       userCred.user.photoURL = null;
+      userCred.user.bookmarks = [];
     }).catch((error) => setErrorState(error.message)
     );
   };

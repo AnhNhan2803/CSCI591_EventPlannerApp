@@ -80,7 +80,6 @@ export default CreateForm = () => {
   
   const handleSubmission = (data) => {
     data.Date = date;  // Ensure date is correctly formatted or adjusted if needed
-    console.log(`Data:\n${JSON.stringify(data, null, 2)}\n`);  // Properly log the data object
   
     Alert.alert("Submit", "Do you want to post this event?", [
       {

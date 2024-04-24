@@ -7,23 +7,40 @@ import { colors } from '../constants/theme';
 import { auth } from '../config/firebase';
 
 
+/**
+ * Renders an item on the home page.
+ * 
+ * @param {Object} item Event details object from Firestore
+ * @returns JSX Object
+ */
 export const RenderItem = ({ item }) => {
-  console.log(item.Name, item)
-  const [bookmarked, setBookmarked] = useState(item.bookmarked);
+  const [bookmarked, setBookmarked] = useState(() => {
+    if (!auth.currentUser.bookmarks) {
+      auth.currentUser.bookmarks = [];
+      return false;
+    }
+    return auth.currentUser.bookmarks.includes(item.id);
+  });
   const animationScale = new Animated.Value(1);
   const navigation = useNavigation();
 
-  // const addBookmarkToUser = (eventId) => {
-  //   if (auth.currentUser.bookmarks) {
-  //     if (eventId)
-  //     auth.currentUser.bookmarks = [...auth.currentUser.bookmarks]
-  //   }
-  // }
+  const addBookmarkToUser = (eventId) => {
+    // Add the eventId to the bookmarks array if bookmarked is true
+    if (bookmarked) {
+      // Ensure the eventId is not already in the array to avoid duplicates
+      if (!auth.currentUser.bookmarks.includes(eventId)) {
+        auth.currentUser.bookmarks.push(eventId);
+      }
+    } else {
+      // Remove the eventId from the bookmarks array if bookmarked is false
+      auth.currentUser.bookmarks = auth.currentUser.bookmarks.filter(id => id !== eventId);
+    }
+  };
 
   const toggleBookmark = () => {
     setBookmarked(!bookmarked);
     
-    // addBookmarkToUser();
+    addBookmarkToUser(item.id);
 
     Animated.sequence([
       Animated.timing(animationScale, {
@@ -41,7 +58,7 @@ export const RenderItem = ({ item }) => {
 
   function formatDateAndTime(dateObject) {
     // Ensure the input is a valid Date object
-    console.log(dateObject)
+    dateObject = dateObject.toDate()
     if (!(dateObject instanceof Date)) {
         throw new Error("Invalid date object");
     }
@@ -74,15 +91,15 @@ export const RenderItem = ({ item }) => {
         style={styles.eventItem}
         onPress={() => navigation.navigate('CardView', { item })}
       >
-        <Text style={styles.eventName}>{item.Name}</Text>
+        <Text style={styles.eventName}>{item.title}</Text>
         <Text style={styles.eventInfo}>
           <Text style={styles.bold}>Date:</Text> {dateString}{' '}
           <Text style={styles.bold}>Time:</Text> {timeString}
         </Text>
         <Text style={styles.eventInfo}>
-          <Text style={styles.bold}>Location:</Text> {item.Location}
+          <Text style={styles.bold}>Location:</Text> {item.location}
         </Text>
-        <Text style={styles.eventDescription}>{item.Description}</Text>
+        <Text style={styles.eventDescription}>{item.description}</Text>
       </TouchableOpacity>
       <Animated.View style={{
         position: 'absolute',
