@@ -97,7 +97,7 @@ export const HomeScreen = () => {
       <Text style={styles.eventInfo}>
         <Text style={styles.bold}>Location:</Text> {item.Location}
       </Text>
-      <Text style={styles.eventDescription}>{item.Description}</Text>
+      {/* <Text style={styles.bold}>{item.Tags}</Text> */}
     </TouchableOpacity>
   );
 

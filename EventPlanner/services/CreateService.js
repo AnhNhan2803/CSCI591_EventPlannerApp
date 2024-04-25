@@ -3,7 +3,7 @@
 //set organizer value to Current User
 
 //uses react-hook-form library for validation
-import { useForm, Controller } from "react-hook-form";
+import { useForm, Controller, useController } from "react-hook-form";
 import { addDoc, collection } from "firebase/firestore";
 import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
@@ -18,9 +18,9 @@ import {
   SafeAreaView
 } from "react-native";
 import DateTimePicker from '@react-native-community/datetimepicker';
-
 import { db } from "../config/firebase";
 import { colors } from "../constants/theme";
+import TagPicker from "../components/TagPicker";
 
 const FormItem = ({ control, name, err, ph="", required=true }) => {
   return (
@@ -105,7 +105,8 @@ export default CreateForm = () => {
         <FormItem control={control} name={"Organizer"} err={errors.organizer} ph={"Who's organizing your event?"} />
         <FormItem control={control} name={"Location"} err={errors.location} ph={"Where's your event?"} />
         <FormItem control={control} name={"Description"} err={errors.description} ph={"Tell us about your event!"} />
-        <FormItem control={control} name={"Tags"} err={errors.tags} ph={"**WORK IN PROGRESS**"} />
+        {/* <FormItem control={control} name={"Tags"} err={errors.tags} ph={"**WORK IN PROGRESS**"} /> */}
+        <TagPicker control={control} name={"Tags"} getValues={getValues} />
 
         <View style={styles.dateTimeContainer}>
           <Text style={styles.rowTitle}>DATE AND TIME*</Text>
