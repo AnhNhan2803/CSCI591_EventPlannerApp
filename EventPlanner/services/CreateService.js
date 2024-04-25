@@ -3,7 +3,7 @@
 //set organizer value to Current User
 
 //uses react-hook-form library for validation
-import { useForm, Controller, useController } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { addDoc, collection } from "firebase/firestore";
 import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
@@ -46,6 +46,7 @@ const FormItem = ({ control, name, err, ph="", required=true }) => {
     </View>
   )
 }
+
 
 export default CreateForm = () => {
   const [date, setDate] = useState(new Date());
@@ -106,9 +107,10 @@ export default CreateForm = () => {
         <FormItem control={control} name={"Location"} err={errors.location} ph={"Where's your event?"} />
         <FormItem control={control} name={"Description"} err={errors.description} ph={"Tell us about your event!"} />
         {/* <FormItem control={control} name={"Tags"} err={errors.tags} ph={"**WORK IN PROGRESS**"} /> */}
-        <TagPicker control={control} name={"Tags"} getValues={getValues} />
+        <TagPicker control={control} name={"Tags"}  />
 
-        <View style={styles.dateTimeContainer}>
+        
+         <View style={styles.dateTimeContainer}>
           <Text style={styles.rowTitle}>DATE AND TIME*</Text>
             <View style={styles.dateTimeSubContainer}>
               <DateTimePicker
@@ -128,7 +130,7 @@ export default CreateForm = () => {
                 onChange={onChange}
               />
             </View>
-        </View>
+        </View> 
 
         {isErr && <Text style={styles.errText}>You're missing something!</Text>}
 

@@ -89,7 +89,7 @@ export const HomeScreen = () => {
       style={styles.eventItem}
       onPress={() => navigation.navigate("CardView", { item, navigation })}
     >
-      <Text style={styles.eventName}>{item.Name}</Text>
+      <Text style={styles.eventName}>{item.Title}</Text>
       <Text style={styles.eventInfo}>
         <Text style={styles.bold}>Date:</Text> {item.FullDate}{" "}
         <Text style={styles.bold}>Time:</Text> {item.time}
@@ -97,7 +97,7 @@ export const HomeScreen = () => {
       <Text style={styles.eventInfo}>
         <Text style={styles.bold}>Location:</Text> {item.Location}
       </Text>
-      {/* <Text style={styles.bold}>{item.Tags}</Text> */}
+      <Text style={styles.bold}>{item.Tags}</Text>
     </TouchableOpacity>
   );
 

@@ -1,8 +1,9 @@
 import DropDownPicker from 'react-native-dropdown-picker';
 import React, { useState } from "react";
+import { useController } from 'react-hook-form';
 
 
-const TagPicker = () => {
+function TagPicker ({ control, name }) {
 
     const [open, setOpen] = useState(false);
     const { field } = useController({ control, name});
@@ -15,6 +16,7 @@ const TagPicker = () => {
     ]);
        
     return (
+        
         <DropDownPicker
             open={open}
             value={field.value}
