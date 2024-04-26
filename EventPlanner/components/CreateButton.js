@@ -10,20 +10,21 @@ const CreateButton = () => {
   const navigation = useNavigation();
   const iconSize = 50;
 
-  return(
-    <>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => navigation.navigate("CreateScreen")}
-      >
-      <Icon
-        name="add-outline"
-        size={iconSize}
-        color={colors.white}
-      />
-      </TouchableOpacity>
-    </>
-  );
+    return(
+      <>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => navigation.navigate("CreateScreen")}
+            testID="create-button"
+          >
+          <Icon
+            name="add-outline"
+            size={iconSize}
+            color={colors.white}
+          />
+          </TouchableOpacity>
+      </>
+    );
 }
 
 const styles = StyleSheet.create({
