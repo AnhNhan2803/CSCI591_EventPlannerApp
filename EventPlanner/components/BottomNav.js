@@ -10,11 +10,12 @@ const BottomNav = () => {
 
   return (
     <>
-      <View style={styles.bottomContainer}>
+      <View style={styles.bottomContainer} testID="bottom-nav-container">
         <View style={styles.bottomRow}>
           <TouchableOpacity
             style={styles.button}
             onPress={() => navigation.navigate("CalendarScreen")}
+            testID="calendar-button"
           >
             <Icon
               name="calendar-outline"
@@ -27,6 +28,7 @@ const BottomNav = () => {
           <TouchableOpacity
             style={styles.button}
             onPress={() => navigation.navigate("HomeScreen")}
+            testID="home-button"
           >
             <Icon name="home-outline" size={iconSize} color={colors.white} />
             {/* <Text style={styles.buttonText}>Home</Text> */}
@@ -35,6 +37,7 @@ const BottomNav = () => {
           <TouchableOpacity
             style={styles.button}
             onPress={() => navigation.navigate("ProfileScreen")}
+            testID="profile-button"
           >
             <Icon
               name="person-circle-outline"
