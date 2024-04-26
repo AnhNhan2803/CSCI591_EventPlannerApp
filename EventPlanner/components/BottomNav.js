@@ -1,54 +1,73 @@
-import React from "react";
-import { View, TouchableOpacity, StyleSheet, Text } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import React, { useState, useEffect } from "react";
+import { View, TouchableOpacity, StyleSheet, Animated } from "react-native";
+import { useNavigation, useNavigationState } from "@react-navigation/native";
 import { colors } from "../constants/theme";
 import Icon from "react-native-vector-icons/Ionicons";
 
 const BottomNav = () => {
   const navigation = useNavigation();
-  const iconSize = 35;
+  const routes = useNavigationState(state => state.routes);
+  const [currentScreen, setCurrentScreen] = useState(routes[routes.length - 1].name);
+
+  // Create an object to store animated values for each icon
+  const [animatedValues, setAnimatedValues] = useState({
+    CalendarScreen: new Animated.Value(1),
+    HomeScreen: new Animated.Value(1),
+    ProfileScreen: new Animated.Value(1)
+  });
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('state', () => {
+      const currentRoutes = navigation.getState().routes;
+      setCurrentScreen(currentRoutes[currentRoutes.length - 1].name);
+    });
+
+    return unsubscribe;
+  }, [navigation]);
+
+  const handlePress = (screen) => {
+    // Trigger the bounce animation for the specific screen
+    Animated.sequence([
+      Animated.timing(animatedValues[screen], {
+        toValue: 1.2,
+        duration: 200,
+        useNativeDriver: true
+      }),
+      Animated.spring(animatedValues[screen], {
+        toValue: 1,
+        friction: 3,
+        useNativeDriver: true
+      })
+    ]).start();
+
+    navigation.navigate(screen);
+  };
+
+  const renderButton = (screen, iconName, size) => {
+    return (
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => handlePress(screen)}
+      >
+        <Animated.View style={{ transform: [{ scale: animatedValues[screen] }] }}>
+          <Icon
+            name={currentScreen === screen ? iconName : `${iconName}-outline`}
+            size={size}
+            color={colors.white}
+          />
+        </Animated.View>
+      </TouchableOpacity>
+    );
+  };
 
   return (
-    <>
-      <View style={styles.bottomContainer} testID="bottom-nav-container">
-        <View style={styles.bottomRow}>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => navigation.navigate("CalendarScreen")}
-            testID="calendar-button"
-          >
-            <Icon
-              name="calendar-outline"
-              size={iconSize}
-              color={colors.white}
-            />
-            {/* <Text style={styles.buttonText}>Calendar</Text> */}
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => navigation.navigate("HomeScreen")}
-            testID="home-button"
-          >
-            <Icon name="home-outline" size={iconSize} color={colors.white} />
-            {/* <Text style={styles.buttonText}>Home</Text> */}
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => navigation.navigate("ProfileScreen")}
-            testID="profile-button"
-          >
-            <Icon
-              name="person-circle-outline"
-              size={iconSize}
-              color={colors.white}
-            />
-            {/* <Text style={styles.buttonText}>Profile</Text> */}
-          </TouchableOpacity>
-        </View>
+    <View style={styles.bottomContainer}>
+      <View style={styles.bottomRow}>
+        {renderButton("CalendarScreen", "calendar", 35)}
+        {renderButton("HomeScreen", "home", 35)}
+        {renderButton("ProfileScreen", "person-circle", 35)}
       </View>
-    </>
+    </View>
   );
 };
 
@@ -75,20 +94,6 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     width: 60,
     height: 60,
-  },
-  buttonText: {
-    color: colors.white,
-    textAlign: "center",
-    fontSize: 14,
-    flex: 1,
-  },
-  hidden: {
-    display: "none", // Hide the bottom nav when the screen is not focused
-  },
-  buttonNav: {
-    width: 16,
-    height: 16,
-    resizeMode: "contain",
   },
 });
 

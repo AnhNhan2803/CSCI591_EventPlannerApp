@@ -12,48 +12,44 @@ import { collection, getDocs } from "firebase/firestore";
 import { db } from "../config/firebase";
 import BottomNav from "../components/BottomNav";
 import CreateButton from "../components/CreateButton";
-// import { useNavigation } from "@react-navigation/native";
 import { colors } from "../constants/theme";
 import { useNavigation } from "@react-navigation/native";
+import { RenderItem } from '../components/RenderItem'
 
 export const HomeScreen = () => {
-  // const navigation = useNavigation();
   const [events, setEvents] = useState([]);
-  const navigation = useNavigation();
-
-  /**
-   * Turns a date into a usable object
-   *
-   * @param {string} fullDate Full date separated by '/'
-   * @returns {Date} Date object
-   */
-  const parseFullDate = (fullDate) => {
-    const [month, day, year] = fullDate.split("/");
-    return new Date(year, month - 1, day);
-  };
 
   /**
    * List of events after the current date
    */
   const filteredEvents = events.filter((event) => {
-    const eventDate = parseFullDate(event.FullDate);
+    const eventDate = event.Date;
     const currentDate = new Date();
     return eventDate > currentDate;
   });
 
   /**
-   * Sofrts events by date
+   * Sorts events by date
    *
    * @param {list[Object]} events list of events
    * @returns {list[Object]} list of events sorted based on date
    */
   const sortByDate = (events) => {
     return events.sort((a, b) => {
-      const dateA = parseFullDate(a.FullDate);
-      const dateB = parseFullDate(b.FullDate);
+      const dateA = a.Date;
+      const dateB = b.Date;
       return dateA - dateB;
     });
   };
+
+  const _renderItem = ({ item }) => {
+    console.log(`Rendering ${item.name}: \n${JSON.stringify(item)}`)
+    return (
+    <>
+      <RenderItem item={item} />
+    </>
+    )
+  }
 
   // Updates event data state based on Firestore snapshot changes
   useEffect(() => {
@@ -65,8 +61,8 @@ export const HomeScreen = () => {
           eventData.push(doc.data());
         });
         eventData.sort((a, b) => {
-          const dateA = parseFullDate(a.FullDate);
-          const dateB = parseFullDate(b.FullDate);
+          const dateA = a.Date;
+          const dateB = b.Date;
           return dateA - dateB;
         });
         setEvents(eventData);
@@ -78,37 +74,14 @@ export const HomeScreen = () => {
     fetchEvents();
   }, []);
 
-  /**
-   * Renders an event
-   *
-   * @param {eventData} event data object for the event
-   * @returns Event JSX item
-   */
-  const renderItem = ({ item }) => (
-    <TouchableOpacity
-      style={styles.eventItem}
-      onPress={() => navigation.navigate("CardView", { item, navigation })}
-    >
-      <Text style={styles.eventName}>{item.Name}</Text>
-      <Text style={styles.eventInfo}>
-        <Text style={styles.bold}>Date:</Text> {item.FullDate}{" "}
-        <Text style={styles.bold}>Time:</Text> {item.time}
-      </Text>
-      <Text style={styles.eventInfo}>
-        <Text style={styles.bold}>Location:</Text> {item.Location}
-      </Text>
-      <Text style={styles.eventDescription}>{item.Description}</Text>
-    </TouchableOpacity>
-  );
-
   return (
     <BgWrapper>
       <Image source={require('../assets/wave-spacer.png')} />
       <SafeAreaView style={styles.container}>
         <FlatList
           data={events}
-          renderItem={renderItem}
-          keyExtractor={(item, index) => item.FullDate + index}
+          renderItem={_renderItem}
+          keyExtractor={(item, index) => item.Date + index}
         />
         <CreateButton />
         <BottomNav />

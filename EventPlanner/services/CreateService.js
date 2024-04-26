@@ -4,7 +4,7 @@
 
 //uses react-hook-form library for validation
 import { useForm, Controller } from "react-hook-form";
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, updateDoc } from "firebase/firestore";
 import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import {
@@ -15,7 +15,6 @@ import {
   Alert,
   TouchableOpacity,
   Button,
-  SafeAreaView
 } from "react-native";
 import DateTimePicker from '@react-native-community/datetimepicker';
 
@@ -78,9 +77,10 @@ export default CreateForm = () => {
       },
     ]);
   };
-
-  //submit button
+  
   const handleSubmission = (data) => {
+    data.Date = date;  // Ensure date is correctly formatted or adjusted if needed
+  
     Alert.alert("Submit", "Do you want to post this event?", [
       {
         text: "No",
@@ -89,8 +89,20 @@ export default CreateForm = () => {
       {
         text: "Yes",
         onPress: async () => {
-          const docRef = await addDoc(collection(db, "Events"), { data });
-          navigation.navigate("HomeScreen");
+          try {
+            // Create the document with the data object spread at the root level
+            const docRef = await addDoc(collection(db, "Events"), data);
+  
+            // Update the document to add the document ID
+            await updateDoc(docRef, {
+              id: docRef.id  // Add the document ID as 'id'
+            });
+  
+            console.log("Event submitted with ID:", docRef.id);
+            navigation.navigate("HomeScreen");
+          } catch (error) {
+            console.error("Error submitting the event:", error);
+          }
         },
       },
     ]);
