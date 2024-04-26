@@ -14,7 +14,7 @@ import BottomNav from "../components/BottomNav";
 import CreateButton from "../components/CreateButton";
 import { colors } from "../constants/theme";
 import { useNavigation } from "@react-navigation/native";
-import { RenderItem } from '../components/RenderItem'
+import { RenderItem } from "../components/RenderItem";
 
 export const HomeScreen = () => {
   const [events, setEvents] = useState([]);
@@ -43,13 +43,13 @@ export const HomeScreen = () => {
   };
 
   const _renderItem = ({ item }) => {
-    console.log(`Rendering ${item.name}: \n${JSON.stringify(item)}`)
+    console.log(`Rendering ${item.name}: \n${JSON.stringify(item)}`);
     return (
-    <>
-      <RenderItem item={item} />
-    </>
-    )
-  }
+      <>
+        <RenderItem item={item} />
+      </>
+    );
+  };
 
   // Updates event data state based on Firestore snapshot changes
   useEffect(() => {
@@ -76,7 +76,7 @@ export const HomeScreen = () => {
 
   return (
     <BgWrapper>
-      <Image source={require('../assets/wave-spacer.png')} />
+      <Image source={require("../assets/wave-spacer.png")} />
       <SafeAreaView style={styles.container}>
         <FlatList
           data={events}
@@ -93,7 +93,7 @@ export const HomeScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'transparent',
+    backgroundColor: "transparent",
     // marginTop: 20,
   },
   eventItem: {
@@ -128,6 +128,5 @@ const styles = StyleSheet.create({
   eventDescription: {
     fontSize: 16,
     color: colors.medium,
-  }
+  },
 });
-

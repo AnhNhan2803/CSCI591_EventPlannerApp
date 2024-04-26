@@ -3,6 +3,7 @@
 //set organizer value to Current User
 
 //uses react-hook-form library for validation
+import { format } from "date-fns"; // Import date-fns library for date formatting
 import { useForm, Controller } from "react-hook-form";
 import { addDoc, collection, updateDoc } from "firebase/firestore";
 import React, { useState } from "react";
@@ -16,15 +17,18 @@ import {
   TouchableOpacity,
   Button,
 } from "react-native";
-import DateTimePicker from '@react-native-community/datetimepicker';
+import DateTimePicker from "@react-native-community/datetimepicker";
 
 import { db } from "../config/firebase";
 import { colors } from "../constants/theme";
 
-const FormItem = ({ control, name, err, ph="", required=true }) => {
+const FormItem = ({ control, name, err, ph = "", required = true }) => {
   return (
     <View style={styles.formItemContainer}>
-      <Text style={styles.rowTitle}>{name.toUpperCase()}{required && "*"}</Text>
+      <Text style={styles.rowTitle}>
+        {name.toUpperCase()}
+        {required && "*"}
+      </Text>
       <Controller
         control={control}
         rules={{
@@ -32,7 +36,10 @@ const FormItem = ({ control, name, err, ph="", required=true }) => {
         }}
         render={({ field: { onChange, onBlur, value } }) => (
           <TextInput
-            style={[styles.textInput, err ? styles.borderErr : styles.borderDefault]}
+            style={[
+              styles.textInput,
+              err ? styles.borderErr : styles.borderDefault,
+            ]}
             placeholder={ph}
             onBlur={onBlur}
             onChangeText={onChange}
@@ -43,16 +50,19 @@ const FormItem = ({ control, name, err, ph="", required=true }) => {
         name={name.toLowerCase()}
       />
     </View>
-  )
-}
+  );
+};
 
 export default CreateForm = () => {
   const [date, setDate] = useState(new Date());
+  const [showDatePicker, setShowDatePicker] = useState(false);
+  const [showTimePicker, setShowTimePicker] = useState(false);
 
   const onChange = (event, selectedDate) => {
-    const currentDate = selectedDate;
+    const currentDate = selectedDate || date; // Fallback to existing date if no new date is selected
     setDate(currentDate);
-    console.log(date)
+    setShowDatePicker(false); // Hide the date picker after selection
+    setShowTimePicker(false); // Hide the time picker after selection
   };
 
   const navigation = useNavigation();
@@ -61,6 +71,10 @@ export default CreateForm = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
+
+  // Function to format date and time for the buttons
+  const formatDate = (date) => format(date, "PPP"); // 'PPP' is a date format in date-fns: Jan 1, 2020
+  const formatTime = (date) => format(date, "p"); // 'p' is a time format in date-fns: 12:00 PM
 
   //cancel button
   const handleCancelButton = () => {
@@ -77,10 +91,10 @@ export default CreateForm = () => {
       },
     ]);
   };
-  
+
   const handleSubmission = (data) => {
-    data.Date = date;  // Ensure date is correctly formatted or adjusted if needed
-  
+    data.Date = date; // Ensure date is correctly formatted or adjusted if needed
+
     Alert.alert("Submit", "Do you want to post this event?", [
       {
         text: "No",
@@ -92,12 +106,12 @@ export default CreateForm = () => {
           try {
             // Create the document with the data object spread at the root level
             const docRef = await addDoc(collection(db, "Events"), data);
-  
+
             // Update the document to add the document ID
             await updateDoc(docRef, {
-              id: docRef.id  // Add the document ID as 'id'
+              id: docRef.id, // Add the document ID as 'id'
             });
-  
+
             console.log("Event submitted with ID:", docRef.id);
             navigation.navigate("HomeScreen");
           } catch (error) {
@@ -109,43 +123,86 @@ export default CreateForm = () => {
   };
 
   let isErr = Object.keys(errors).length > 0;
-
   return (
     <>
       <View style={styles.view}>
-        <FormItem control={control} name={"Title"} err={errors.title} ph={"What's your event called?"} />
-        <FormItem control={control} name={"Organizer"} err={errors.organizer} ph={"Who's organizing your event?"} />
-        <FormItem control={control} name={"Location"} err={errors.location} ph={"Where's your event?"} />
-        <FormItem control={control} name={"Description"} err={errors.description} ph={"Tell us about your event!"} />
-        <FormItem control={control} name={"Tags"} err={errors.tags} ph={"**WORK IN PROGRESS**"} />
+        <FormItem
+          control={control}
+          name={"Title"}
+          err={errors.title}
+          ph={"What's your event called?"}
+        />
+        <FormItem
+          control={control}
+          name={"Organizer"}
+          err={errors.organizer}
+          ph={"Who's organizing your event?"}
+        />
+        <FormItem
+          control={control}
+          name={"Location"}
+          err={errors.location}
+          ph={"Where's your event?"}
+        />
+        <FormItem
+          control={control}
+          name={"Description"}
+          err={errors.description}
+          ph={"Tell us about your event!"}
+        />
+        <FormItem
+          control={control}
+          name={"Tags"}
+          err={errors.tags}
+          ph={"**WORK IN PROGRESS**"}
+        />
 
         <View style={styles.dateTimeContainer}>
           <Text style={styles.rowTitle}>DATE AND TIME*</Text>
-            <View style={styles.dateTimeSubContainer}>
+          <View style={styles.dateTimeSubContainer}>
+            <Button
+              title={showDatePicker ? "Select Date" : formatDate(date)}
+              onPress={() => setShowDatePicker(true)}
+            />
+            {showDatePicker && (
               <DateTimePicker
                 style={styles.dateTimePicker}
-                testID="dateAndTime"
+                testID="datePicker"
                 value={date}
                 mode="date"
                 is24Hour={true}
+                display="default"
                 onChange={onChange}
               />
+            )}
+            <Button
+              title={showTimePicker ? "Select Time" : formatTime(date)}
+              onPress={() => setShowTimePicker(true)}
+            />
+            {showTimePicker && (
               <DateTimePicker
                 style={styles.dateTimePicker}
-                testID="dateAndTime"
+                testID="timePicker"
                 value={date}
                 mode="time"
                 is24Hour={true}
+                display="default"
                 onChange={onChange}
               />
-            </View>
+            )}
+          </View>
         </View>
 
         {isErr && <Text style={styles.errText}>You're missing something!</Text>}
 
         <View style={styles.buttonContainer}>
           <TouchableOpacity>
-            <View style={[ styles.button, isErr ? styles.buttonError : styles.buttonSuccess ]}>
+            <View
+              style={[
+                styles.button,
+                isErr ? styles.buttonError : styles.buttonSuccess,
+              ]}
+            >
               <Button
                 title="Submit"
                 onPress={handleSubmit(handleSubmission)}
@@ -207,8 +264,8 @@ const styles = StyleSheet.create({
     margin: 0,
   },
   formItemContainer: {
-    display: 'flex',
-    width: '90%',
+    display: "flex",
+    width: "90%",
     gap: -6,
   },
   buttonError: {
@@ -219,18 +276,18 @@ const styles = StyleSheet.create({
   },
   dateTimeContainer: {
     display: "flex",
-    flexDirection: 'column',
-    alignItems: 'center',
-    width: '90%',
+    flexDirection: "column",
+    alignItems: "center",
+    width: "90%",
     marginBottom: 20,
   },
   dateTimeSubContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    flexWrap: 'nowrap',
-    justifyContent: 'center',
+    display: "flex",
+    flexDirection: "row",
+    flexWrap: "nowrap",
+    justifyContent: "center",
     padding: 10,
     backgroundColor: colors.maroon,
     borderRadius: 10,
-  }
+  },
 });
