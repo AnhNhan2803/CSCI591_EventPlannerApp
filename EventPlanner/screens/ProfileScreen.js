@@ -16,6 +16,7 @@ import BottomNav from "../components/BottomNav";
 import { colors } from "../constants/theme";
 import { auth } from "../config";
 import BgWrapper from "../components/BgWrapper";
+import MaroonButton from "../components/MaroonButton";
 
 /**
  * Profile Screen
@@ -154,15 +155,7 @@ const ProfileScreen = ({ navigation }) => {
               {/* Conditionally renders sign out button if based on whether userObject exists */}
               {user ? (
                 <View style={styles.buttonContainer}>
-                  <TouchableOpacity>
-                    <View style={styles.button}>
-                      <Button
-                        title="Sign Out"
-                        onPress={handleLogout}
-                        color={"transparent"}
-                      />
-                    </View>
-                  </TouchableOpacity>
+                  <MaroonButton buttonText="Sign out" title="Sign Out" onPress={handleLogout} />
                 </View>
               ) : (
                 <View style={styles.buttonContainer}>
