@@ -206,7 +206,7 @@ export default CreateForm = () => {
               <Button
                 title="Submit"
                 onPress={handleSubmit(handleSubmission)}
-                color={colors.white}
+                color={"transparent"}
                 disabled={isErr}
               />
             </View>

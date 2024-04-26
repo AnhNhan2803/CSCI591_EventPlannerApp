@@ -17,7 +17,6 @@ import { colors } from "../constants/theme";
 import { auth } from "../config";
 import BgWrapper from "../components/BgWrapper";
 
-
 /**
  * Profile Screen
  *
@@ -31,7 +30,7 @@ const ProfileScreen = ({ navigation }) => {
 
   // Updates userObject on page focus
   useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', () => {
+    const unsubscribe = navigation.addListener("focus", () => {
       setUser(auth.currentUser);
     });
 
@@ -41,31 +40,35 @@ const ProfileScreen = ({ navigation }) => {
   // Updates the state of the sliders
   useEffect(() => {
     if (!user) return;
-    user.isPushNotification ? setPushNotification(true) : setPushNotification(false);
-    user.isEmailNotification ? setEmailNotification(true) : setEmailNotification(false);
+    user.isPushNotification
+      ? setPushNotification(true)
+      : setPushNotification(false);
+    user.isEmailNotification
+      ? setEmailNotification(true)
+      : setEmailNotification(false);
   }, [user]);
 
   /**
    * Handles the state of push notifications in DOM and Firebase
-   * 
-   * @param {boolean} value 
+   *
+   * @param {boolean} value
    */
   function handlePushNotificationChange(value) {
     setPushNotification(value);
     // Call some function here to enable push notifications on device
     auth.currentUser.isPushNotification = value;
-  };
+  }
 
   /**
    * Handles the state of email notifications in DOM and Firebase
-   * 
-   * @param {boolean} value 
+   *
+   * @param {boolean} value
    */
   function handleEmailNotificationChange(value) {
     setEmailNotification(value);
     // Call some function here to enable email notifications on device
     auth.currentUser.isEmailNotification = value;
-  };
+  }
 
   /**
    * Handles button press to sign out user
@@ -87,7 +90,7 @@ const ProfileScreen = ({ navigation }) => {
   return (
     <BgWrapper>
       <SafeAreaView style={{ flex: 1 }}>
-        <Image source={require('../assets/wave-spacer.png')} />
+        <Image source={require("../assets/wave-spacer.png")} />
         <View style={styles.container}>
           {/* Scroll portion */}
           <View style={styles.scrollWrapper}>
@@ -103,9 +106,11 @@ const ProfileScreen = ({ navigation }) => {
                 />
               </View>
               <View style={styles.headerTextContainer}>
-                <Text style={styles.name}>{user ? user.email : "Loading..."}</Text>
                 <Text style={styles.name}>
-                  {user ? user.isAdmin ? "Student" : "Admin" : "Loading..."}
+                  {user ? user.email : "Loading..."}
+                </Text>
+                <Text style={styles.name}>
+                  {user ? (user.isAdmin ? "Student" : "Admin") : "Loading..."}
                 </Text>
               </View>
             </View>
@@ -147,42 +152,40 @@ const ProfileScreen = ({ navigation }) => {
                 </View>
               </TouchableOpacity>
               {/* Conditionally renders sign out button if based on whether userObject exists */}
-              {user
-                ? (
-                  <View style={styles.buttonContainer}>
-                    <TouchableOpacity>
-                      <View style={styles.button}>
-                        <Button
-                          title="Sign Out"
-                          onPress={handleLogout}
-                          color={colors.white}
-                        />
-                      </View>
-                    </TouchableOpacity>
-                  </View>
-                )
-                : (
-                  <View style={styles.buttonContainer}>
-                    <TouchableOpacity>
-                      <View style={styles.button}>
-                        <Button
-                          title="Sign In"
-                          onPress={handleSignIn}
-                          color={colors.white}
-                        />
-                      </View>
-                    </TouchableOpacity>
-                    <TouchableOpacity>
-                      <View style={styles.button}>
-                        <Button
-                          title="Register"
-                          onPress={handleRegister}
-                          color={colors.white}
-                        />
-                      </View>
-                    </TouchableOpacity>
-                  </View>
-                )}
+              {user ? (
+                <View style={styles.buttonContainer}>
+                  <TouchableOpacity>
+                    <View style={styles.button}>
+                      <Button
+                        title="Sign Out"
+                        onPress={handleLogout}
+                        color={"transparent"}
+                      />
+                    </View>
+                  </TouchableOpacity>
+                </View>
+              ) : (
+                <View style={styles.buttonContainer}>
+                  <TouchableOpacity>
+                    <View style={styles.button}>
+                      <Button
+                        title="Sign In"
+                        onPress={handleSignIn}
+                        color={colors.white}
+                      />
+                    </View>
+                  </TouchableOpacity>
+                  <TouchableOpacity>
+                    <View style={styles.button}>
+                      <Button
+                        title="Register"
+                        onPress={handleRegister}
+                        color={colors.white}
+                      />
+                    </View>
+                  </TouchableOpacity>
+                </View>
+              )}
             </View>
             {/* </ScrollView> */}
           </View>
