@@ -1,5 +1,13 @@
 // EventPlanner/services/EventService.js
-import { getFirestore, doc, updateDoc, getDoc } from "firebase/firestore";
+import {
+  getFirestore,
+  doc,
+  updateDoc,
+  getDoc,
+  collection,
+  query,
+  getDocs,
+} from "firebase/firestore";
 import { app } from "../config/firebase.js";
 
 const db = getFirestore(app);
@@ -27,7 +35,7 @@ export const EventService = {
    * Retrieves the event details
    *
    * @param {string} eventId
-   * @returns {Object} Snapshot data
+   * @returns {Object} Event data
    */
   getEventDetails: async (eventId) => {
     try {
@@ -45,5 +53,25 @@ export const EventService = {
     }
   },
 
-  // Add more methods later
+  /**
+   * Retrieves all events
+   *
+   * @returns {Array} Array of event objects
+   */
+  getAllEvents: async () => {
+    try {
+      const eventsCollection = collection(db, "events");
+      const eventsSnapshot = await getDocs(eventsCollection);
+      const events = [];
+
+      eventsSnapshot.forEach((doc) => {
+        events.push({ id: doc.id, ...doc.data() });
+      });
+
+      return events;
+    } catch (error) {
+      console.error("Error getting all events: ", error);
+      throw new Error(error.message);
+    }
+  },
 };
