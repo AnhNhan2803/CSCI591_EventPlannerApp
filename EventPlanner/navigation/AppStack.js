@@ -1,5 +1,5 @@
 import * as React from "react";
-import { createStackNavigator } from "@react-navigation/stack";
+import { createStackNavigator, CardStyleInterpolators } from "@react-navigation/stack";
 import { HomeScreen } from "../screens";
 import { StyleSheet } from "react-native";
 import { colors } from "../config";
@@ -7,8 +7,6 @@ import CalendarScreen from "../screens/CalendarScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 import CreateScreen from "../screens/CreateScreen";
 import EventDetailsScreen from "../screens/EventDetailsScreen";
-import CardView from "../components/CardView";
-
 
 const Stack = createStackNavigator();
 
@@ -32,6 +30,7 @@ export const AppStack = () => {
         name="CalendarScreen"
         component={CalendarScreen}
         options={{
+          animationEnabled: false,
           title: "Calendar",
           headerStyle: styles.headerStyle,
           headerTintColor: colors.white,
@@ -45,6 +44,7 @@ export const AppStack = () => {
         name="ProfileScreen"
         component={ProfileScreen}
         options={{
+          animationEnabled: false,
           title: "Profile",
           headerStyle: styles.headerStyle,
           headerTintColor: colors.white,
@@ -64,6 +64,7 @@ export const AppStack = () => {
           headerTitleStyle: {
             fontSize: 35,
           },
+          cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS // Slide-up animation
         }}
       />
 
@@ -71,6 +72,7 @@ export const AppStack = () => {
         name="EventDetailsScreen"
         component={EventDetailsScreen}
         options={{
+          animationEnabled: false,
           title: "Details",
           headerStyle: styles.headerStyle,
           headerTintColor: colors.white,
