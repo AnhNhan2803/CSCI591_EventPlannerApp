@@ -92,12 +92,15 @@ export const RenderItem = ({ item }) => {
     return [dateString, timeString];
   }
   const [dateString, timeString] = formatDateAndTime(item.Date);
-
+  console.log(item);
   return (
     <View style={styles.container}>
       <TouchableOpacity
         style={styles.eventItem}
-        onPress={() => navigation.navigate("CardView", { item })}
+        onPress={() => {
+          console.log("Item being passed:", item);
+          navigation.navigate("EventDetailsScreen", { item });
+        }}
       >
         <Text style={styles.eventName}>{item.title}</Text>
         <Text style={styles.eventInfo}>

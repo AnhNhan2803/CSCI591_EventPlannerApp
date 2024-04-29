@@ -1,19 +1,21 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 
-const CardView = ({ site, navigation }) => {
-  // Destructuring the item object to get event details
+// Notice we're now expecting 'route' in the props to access 'route.params'
+const CardView = ({ route }) => {
+  // Extract 'item' from route.params
+  const { item } = route.params;
 
+  // Now you can use 'item' to access the event details
   return (
     <View style={styles.card}>
-      <Text style={styles.name}>{site.Name}</Text>
-      <Text style={styles.date}>{site.FullDate}</Text>
-      <Text style={styles.location}>{site.Location}</Text>
-      <Text style={styles.description}>{site.Description}</Text>
+      <Text style={styles.name}>{item.Name}</Text>
+      <Text style={styles.date}>{item.FullDate}</Text>
+      <Text style={styles.location}>{item.Location}</Text>
+      <Text style={styles.description}>{item.Description}</Text>
     </View>
   );
 };
-
 const styles = StyleSheet.create({
   card: {
     backgroundColor: "white",
