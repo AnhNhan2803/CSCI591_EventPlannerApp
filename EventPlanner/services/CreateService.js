@@ -152,12 +152,13 @@ export default CreateForm = () => {
           err={errors.description}
           ph={"Tell us about your event!"}
         />
-        <FormItem
+        <View style={styles.tagPickerContainer}>
+        <Text style={styles.rowTitle}>TAGS*</Text>
+        <TagPicker
           control={control}
           name={"Tags"}
-          err={errors.tags}
-          ph={"**WORK IN PROGRESS**"}
         />
+        </View>
 
         
          <View style={styles.dateTimeContainer}>
@@ -224,6 +225,7 @@ const styles = StyleSheet.create({
   view: {
     alignItems: "center",
     backgroundColor: "transparent",
+    height: "100%",
   },
   buttonContainer: {
     paddingHorizontal: 10,
@@ -257,10 +259,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.medium,
   },
-  borderErr: {
-    borderWidth: 2,
-    borderColor: colors.danger,
-  },
   rowTitle: {
     color: colors.dark,
     fontSize: 14,
@@ -293,4 +291,12 @@ const styles = StyleSheet.create({
     backgroundColor: colors.maroon,
     borderRadius: 10,
   },
+  tagPickerContainer: {
+    display: "flex",
+    marginVertical: 12,
+    flexDirection: "column",
+    marginBottom: 20,
+
+    //minHeight: 300,
+  }
 });

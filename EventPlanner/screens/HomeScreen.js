@@ -74,32 +74,6 @@ export const HomeScreen = () => {
     fetchEvents();
   }, []);
 
-<<<<<<< HEAD
-  /**
-   * Renders an event
-   *
-   * @param {eventData} event data object for the event
-   * @returns Event JSX item
-   */
-  const renderItem = ({ item }) => (
-    <TouchableOpacity
-      style={styles.eventItem}
-      onPress={() => navigation.navigate("CardView", { item, navigation })}
-    >
-      <Text style={styles.eventName}>{item.Title}</Text>
-      <Text style={styles.eventInfo}>
-        <Text style={styles.bold}>Date:</Text> {item.FullDate}{" "}
-        <Text style={styles.bold}>Time:</Text> {item.time}
-      </Text>
-      <Text style={styles.eventInfo}>
-        <Text style={styles.bold}>Location:</Text> {item.Location}
-      </Text>
-      <Text style={styles.bold}>{item.Tags}</Text>
-    </TouchableOpacity>
-  );
-
-=======
->>>>>>> 39267ea055206f17a37574eda63d4b2f1c6bfe08
   return (
     <BgWrapper>
       <Image source={require("../assets/wave-spacer.png")} />

@@ -15,7 +15,7 @@ const CreateScreen = () => {
     <BgWrapper>
       <Image source={require('../assets/wave-spacer.png')} />
       <ScrollView style={styles.View}>
-        <CreateForm />
+        <CreateForm style={styles.Create}/>
       </ScrollView>
     </BgWrapper>
   );
@@ -24,4 +24,12 @@ const CreateScreen = () => {
 export default CreateScreen;
 
 const styles = StyleSheet.create({
+  view: {
+    alignItems: "center",
+    backgroundColor: "transparent",
+  },
+  Create: {
+    height: "100%",
+    
+  }
 });
