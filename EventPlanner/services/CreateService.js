@@ -21,6 +21,7 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 
 import { db } from "../config/firebase";
 import { colors } from "../constants/theme";
+import MaroonButton from "../components/MaroonButton";
 
 const FormItem = ({ control, name, err, ph = "", required = true }) => {
   return (
@@ -196,21 +197,7 @@ export default CreateForm = () => {
         {isErr && <Text style={styles.errText}>You're missing something!</Text>}
 
         <View style={styles.buttonContainer}>
-          <TouchableOpacity>
-            <View
-              style={[
-                styles.button,
-                isErr ? styles.buttonError : styles.buttonSuccess,
-              ]}
-            >
-              <Button
-                title="Submit"
-                onPress={handleSubmit(handleSubmission)}
-                color={colors.white}
-                disabled={isErr}
-              />
-            </View>
-          </TouchableOpacity>
+          <MaroonButton buttonText="Submit" title="Submit" onPress={handleSubmit(handleSubmission)} disabled={isErr} />
         </View>
       </View>
     </>
