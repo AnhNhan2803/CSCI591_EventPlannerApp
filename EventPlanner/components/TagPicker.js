@@ -7,49 +7,50 @@ import {
   } from "react-native";
   import { colors } from "../constants/theme";
   import { useEffect } from 'react';
-
-  
-
-
 const TagPicker = ({ control, name }) => {
+
     const { field } = useController({
         name,
         control,
         rules: { required: true },
-      });
-      const [value, setValue] = useState(field.value);
+    });
+    const [values, setValues] = useState(field.value);
+    useEffect(()  => {
+        const newValue = values;
+        field.onChange(newValue);
+        console.log("in useEffect: " + field.value);
+        // return () => {
+        //     const newReturnValue = value;
+        //     field.onChange(newReturnValue);
+        // }
+    }, [values, setValues]);
+    
+
     const [open, setOpen] = useState(false);
-    useEffect(() => {
-        setValue(field.value);
-        },
-        [field.value, setValue]);
-    const items = [
-        {id: 1, label: 'Sports', value: 'sports'},
-        {id: 2, label: 'Social', value: 'social'}, 
-        {id: 3, label: 'Guest Speaker', value: 'guest-speaker'},
-        {id: 4, label: 'Free food', value: 'free-food'},
-        {id: 5, label: 'Sustainability', value: 'sustainability'},            
-    ];
-       
+    const [items, setItems] = useState([
+        { label: 'Sports', value: 'sports'},
+        { label: 'Social', value: 'social'}, 
+        { label: 'Guest Speaker', value: 'guest-speaker'},
+        { label: 'Free food', value: 'free-food'},
+        { label: 'Sustainability', value: 'sustainability'},            
+    ]);
+   
     return (
-        <View style={styles.formItemContainer}>
                     <DropDownPicker
-                    style={[
-                        styles.borderDefault,
-                      ]}
+                    style={styles.borderDefault}
                     open={open}
-                    value={value}
-                    name={field.name}
+                    value={values}
                     items={items}
                     min={1}
+                    max={5}
                     setOpen={setOpen}
-                    onBlur={field.onBlur}
-                    setValue={ 
-                        (tag) => {
-                        field.onChange(tag);
-                        setValue(tag);
-                        console.log(value);
-                    }}
+                    setValue={setValues}
+                    setItems={setItems}
+                    containerStyle={styles.formItemContainer}
+                    // onChangeValue={() => {
+                    //      console.log("value = " + value);
+                    //      console.log("field.value = " + field.value);
+                    // }}
                     mode="BADGE"
                     placeholder={'Select some tags'}
                     listMode="SCROLLVIEW"
@@ -57,7 +58,6 @@ const TagPicker = ({ control, name }) => {
                     scrollEnabled={true}
                     dropDownDirection='TOP'
                 />                  
-              </View>
             );
           };
           

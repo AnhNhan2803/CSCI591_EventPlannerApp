@@ -199,7 +199,8 @@ export default CreateForm = () => {
         </View>
 
         {isErr && <Text style={styles.errText}>You're missing something!</Text>}
-
+        {console.log(errors)}
+        
         <View style={styles.buttonContainer}>
           <MaroonButton buttonText="Submit" title="Submit" onPress={handleSubmit(handleSubmission)} disabled={isErr} />
         </View>
