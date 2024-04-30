@@ -18,11 +18,6 @@ const TagPicker = ({ control, name }) => {
     useEffect(()  => {
         const newValue = values;
         field.onChange(newValue);
-        console.log("in useEffect: " + field.value);
-        // return () => {
-        //     const newReturnValue = value;
-        //     field.onChange(newReturnValue);
-        // }
     }, [values, setValues]);
     
 
@@ -47,10 +42,6 @@ const TagPicker = ({ control, name }) => {
                     setValue={setValues}
                     setItems={setItems}
                     containerStyle={styles.formItemContainer}
-                    // onChangeValue={() => {
-                    //      console.log("value = " + value);
-                    //      console.log("field.value = " + field.value);
-                    // }}
                     mode="BADGE"
                     placeholder={'Select some tags'}
                     listMode="SCROLLVIEW"

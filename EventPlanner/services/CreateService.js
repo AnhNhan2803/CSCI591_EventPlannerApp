@@ -55,7 +55,6 @@ const FormItem = ({ control, name, err, ph = "", required = true }) => {
   );
 };
 
-
 export default CreateForm = () => {
   const [date, setDate] = useState(new Date());
   const [showDatePicker, setShowDatePicker] = useState(false);
@@ -161,8 +160,7 @@ export default CreateForm = () => {
         />
         </View>
 
-        
-         <View style={styles.dateTimeContainer}>
+        <View style={styles.dateTimeContainer}>
           <Text style={styles.rowTitle}>DATE AND TIME*</Text>
           <View style={styles.dateTimeSubContainer}>
             <Button
@@ -200,7 +198,7 @@ export default CreateForm = () => {
 
         {isErr && <Text style={styles.errText}>You're missing something!</Text>}
         {console.log(errors)}
-        
+
         <View style={styles.buttonContainer}>
           <MaroonButton buttonText="Submit" title="Submit" onPress={handleSubmit(handleSubmission)} disabled={isErr} />
         </View>
