@@ -1,19 +1,16 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import {
-  TouchableOpacity,
   StyleSheet,
-  Text,
   SafeAreaView,
   FlatList,
-  Image,
+  View
 } from "react-native";
-import { collection, getDocs, query, onSnapshot } from "firebase/firestore";
+import { collection, query, onSnapshot } from "firebase/firestore";
 import { db } from "../config/firebase";
 import BottomNav from "../components/BottomNav";
 import CreateButton from "../components/CreateButton";
 import { colors } from "../constants/theme";
-import { useNavigation } from "@react-navigation/native";
 import { RenderItem } from "../components/RenderItem";
 
 export const HomeScreen = () => {
@@ -34,7 +31,6 @@ export const HomeScreen = () => {
    * @param {list[Object]} events list of events
    * @returns {list[Object]} list of events sorted based on date
    */
-
   const _renderItem = ({ item }) => {
     console.log(`Rendering ${item.title}: \n${JSON.stringify(item)}`);
     return (
@@ -72,12 +68,15 @@ export const HomeScreen = () => {
 
   return (
     <BgWrapper>
-      <Image source={require("../assets/wave-spacer.png")} />
       <SafeAreaView style={styles.container}>
         <FlatList
+          style={styles.flatList}
           data={events}
           renderItem={_renderItem}
           keyExtractor={(item, index) => item.Date + index}
+          ListHeaderComponent={
+            <View style={styles.listHeader}></View>
+          }
         />
         <CreateButton />
         <BottomNav />
@@ -90,8 +89,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "transparent",
-    // marginTop: 20,
-    paddingBottom: 80,
   },
   eventItem: {
     backgroundColor: colors.white,
@@ -125,5 +122,11 @@ const styles = StyleSheet.create({
   eventDescription: {
     fontSize: 16,
     color: colors.medium,
+  },
+  flatList: {
+    marginBottom: 50,
+  },
+  listHeader: {
+    height: 30,
   },
 });
