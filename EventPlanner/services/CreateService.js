@@ -21,6 +21,7 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 
 import { db } from "../config/firebase";
 import { colors } from "../constants/theme";
+import TagPicker from "../components/TagPicker";
 import MaroonButton from "../components/MaroonButton";
 
 const FormItem = ({ control, name, err, ph = "", required = true }) => {
@@ -151,12 +152,13 @@ export default CreateForm = () => {
           err={errors.description}
           ph={"Tell us about your event!"}
         />
-        <FormItem
+        <View style={styles.tagPickerContainer}>
+        <Text style={styles.rowTitle}>TAGS*</Text>
+        <TagPicker
           control={control}
           name={"Tags"}
-          err={errors.tags}
-          ph={"**WORK IN PROGRESS**"}
         />
+        </View>
 
         <View style={styles.dateTimeContainer}>
           <Text style={styles.rowTitle}>DATE AND TIME*</Text>
@@ -195,6 +197,7 @@ export default CreateForm = () => {
         </View>
 
         {isErr && <Text style={styles.errText}>You're missing something!</Text>}
+        {console.log(errors)}
 
         <View style={styles.buttonContainer}>
           <MaroonButton buttonText="Submit" title="Submit" onPress={handleSubmit(handleSubmission)} disabled={isErr} />
@@ -208,6 +211,7 @@ const styles = StyleSheet.create({
   view: {
     alignItems: "center",
     backgroundColor: "transparent",
+    height: "100%",
   },
   buttonContainer: {
     paddingHorizontal: 10,
@@ -241,10 +245,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.medium,
   },
-  borderErr: {
-    borderWidth: 2,
-    borderColor: colors.danger,
-  },
   rowTitle: {
     color: colors.dark,
     fontSize: 14,
@@ -277,4 +277,12 @@ const styles = StyleSheet.create({
     backgroundColor: colors.maroon,
     borderRadius: 10,
   },
+  tagPickerContainer: {
+    display: "flex",
+    marginVertical: 12,
+    flexDirection: "column",
+    marginBottom: 20,
+
+    //minHeight: 300,
+  }
 });
