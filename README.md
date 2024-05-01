@@ -23,4 +23,8 @@ Now that you have successfully run the app, let's modify it. Open App.js in your
 That's it!
 Congratulations! You've successfully run and modified your first React Native app.
 
-
+## Setup Unit test
+$ cd EventPlanner
+$ npx expo install jest-expo jest
+$ npm install --save-dev react-test-renderer @testing-library/react-native
+$ npm run test
