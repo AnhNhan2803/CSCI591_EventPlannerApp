@@ -14,7 +14,6 @@ import {
   TextInput,
   StyleSheet,
   Alert,
-  TouchableOpacity,
   Button,
 } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
@@ -126,84 +125,82 @@ export default CreateForm = () => {
 
   let isErr = Object.keys(errors).length > 0;
   return (
-    <>
-      <View style={styles.view}>
-        <FormItem
-          control={control}
-          name={"Title"}
-          err={errors.title}
-          ph={"What's your event called?"}
-        />
-        <FormItem
-          control={control}
-          name={"Organizer"}
-          err={errors.organizer}
-          ph={"Who's organizing your event?"}
-        />
-        <FormItem
-          control={control}
-          name={"Location"}
-          err={errors.location}
-          ph={"Where's your event?"}
-        />
-        <FormItem
-          control={control}
-          name={"Description"}
-          err={errors.description}
-          ph={"Tell us about your event!"}
-        />
-        <View style={styles.tagPickerContainer}>
-        <Text style={styles.rowTitle}>TAGS*</Text>
-        <TagPicker
-          control={control}
-          name={"Tags"}
-        />
-        </View>
+    <View style={styles.view}>
+      <FormItem
+        control={control}
+        name={"Title"}
+        err={errors.title}
+        ph={"What's your event called?"}
+      />
+      <FormItem
+        control={control}
+        name={"Organizer"}
+        err={errors.organizer}
+        ph={"Who's organizing your event?"}
+      />
+      <FormItem
+        control={control}
+        name={"Location"}
+        err={errors.location}
+        ph={"Where's your event?"}
+      />
+      <FormItem
+        control={control}
+        name={"Description"}
+        err={errors.description}
+        ph={"Tell us about your event!"}
+      />
+      <View style={styles.tagPickerContainer}>
+      <Text style={styles.rowTitle}>TAGS*</Text>
+      <TagPicker
+        control={control}
+        name={"Tags"}
+      />
+      </View>
 
-        <View style={styles.dateTimeContainer}>
-          <Text style={styles.rowTitle}>DATE AND TIME*</Text>
-          <View style={styles.dateTimeSubContainer}>
-            <Button
-              title={showDatePicker ? "Select Date" : formatDate(date)}
-              onPress={() => setShowDatePicker(true)}
+      <View style={styles.dateTimeContainer}>
+        <Text style={styles.rowTitle}>DATE AND TIME*</Text>
+        <View style={styles.dateTimeSubContainer}>
+          <Button
+            title={showDatePicker ? "Select Date" : formatDate(date)}
+            onPress={() => setShowDatePicker(true)}
+          />
+          {showDatePicker && (
+            <DateTimePicker
+              style={styles.dateTimePicker}
+              testID="datePicker"
+              value={date}
+              mode="date"
+              is24Hour={true}
+              display="default"
+              onChange={onChange}
             />
-            {showDatePicker && (
-              <DateTimePicker
-                style={styles.dateTimePicker}
-                testID="datePicker"
-                value={date}
-                mode="date"
-                is24Hour={true}
-                display="default"
-                onChange={onChange}
-              />
-            )}
-            <Button
-              title={showTimePicker ? "Select Time" : formatTime(date)}
-              onPress={() => setShowTimePicker(true)}
+          )}
+          <Button
+            title={showTimePicker ? "Select Time" : formatTime(date)}
+            onPress={() => setShowTimePicker(true)}
+          />
+          {showTimePicker && (
+            <DateTimePicker
+              style={styles.dateTimePicker}
+              testID="timePicker"
+              value={date}
+              mode="time"
+              is24Hour={true}
+              display="default"
+              onChange={onChange}
             />
-            {showTimePicker && (
-              <DateTimePicker
-                style={styles.dateTimePicker}
-                testID="timePicker"
-                value={date}
-                mode="time"
-                is24Hour={true}
-                display="default"
-                onChange={onChange}
-              />
-            )}
-          </View>
-        </View>
-
-        {isErr && <Text style={styles.errText}>You're missing something!</Text>}
-        {console.log(errors)}
-
-        <View style={styles.buttonContainer}>
-          <MaroonButton buttonText="Submit" title="Submit" onPress={handleSubmit(handleSubmission)} disabled={isErr} />
+          )}
         </View>
       </View>
-    </>
+
+      {isErr && <Text style={styles.errText}>You're missing something!</Text>}
+      {console.log(errors)}
+
+      <View style={styles.buttonContainer}>
+        <MaroonButton buttonText="Submit" title="Submit" onPress={handleSubmit(handleSubmission)} disabled={isErr} />
+      </View>
+    </View>
   );
 };
 
