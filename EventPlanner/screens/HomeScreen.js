@@ -36,7 +36,7 @@ export const HomeScreen = () => {
    */
 
   const _renderItem = ({ item }) => {
-    console.log(`Rendering ${item.title}: \n${JSON.stringify(item)}`);
+    // console.log(`Rendering ${item.title}: \n${JSON.stringify(item)}`);
     return (
       <>
         <RenderItem item={item} />

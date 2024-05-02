@@ -105,11 +105,12 @@ const EventDetails = ({ item }) => {
         </View>
         <Text style={styles.description}>{item.description}</Text>
         <View style={styles.tagsContainer}>
-          {item.tags.split(", ").map((tag, index) => (
-            <Text key={index} style={styles.tag}>
-              {tag}
-            </Text>
-          ))}
+          {item.tags &&
+            item.tags.split(", ").map((tag, index) => (
+              <Text key={index} style={styles.tag}>
+                {tag}
+              </Text>
+            ))}
         </View>
       </ScrollView>
     </View>
