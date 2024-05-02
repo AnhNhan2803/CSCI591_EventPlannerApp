@@ -3,6 +3,7 @@ import {
   ScrollView,
   StyleSheet,
   Image,
+  View,
 } from 'react-native';
 
 import CreateForm from "../services/CreateService";
@@ -14,9 +15,9 @@ const CreateScreen = () => {
   return(
     <BgWrapper>
       <Image source={require('../assets/wave-spacer.png')} />
-      <ScrollView style={styles.View}>
+      <View style={styles.View}>
         <CreateForm style={styles.Create}/>
-      </ScrollView>
+      </View>
     </BgWrapper>
   );
 };

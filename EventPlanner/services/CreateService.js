@@ -161,10 +161,12 @@ export default CreateForm = () => {
       <View style={styles.dateTimeContainer}>
         <Text style={styles.rowTitle}>DATE AND TIME*</Text>
         <View style={styles.dateTimeSubContainer}>
-          <Button
+          {!showDatePicker && (
+            <Button
             title={showDatePicker ? "Select Date" : formatDate(date)}
             onPress={() => setShowDatePicker(true)}
           />
+          )}
           {showDatePicker && (
             <DateTimePicker
               style={styles.dateTimePicker}
@@ -176,10 +178,12 @@ export default CreateForm = () => {
               onChange={onChange}
             />
           )}
-          <Button
-            title={showTimePicker ? "Select Time" : formatTime(date)}
+          {!showTimePicker && (
+            <Button
+            title={showTimePicker ? "Select Time" : formatDate(date)}
             onPress={() => setShowTimePicker(true)}
           />
+          )}
           {showTimePicker && (
             <DateTimePicker
               style={styles.dateTimePicker}

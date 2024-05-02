@@ -15,8 +15,15 @@ import { colors } from "../constants/theme";
  * @returns {JSX.Element} The rendered TagPicker component.
  */
 const TagPicker = ({ control, name }) => {
-  const [values, setValues] = useState(field.value);
+  const { field } = useController({
+    name,
+    control,
+    rules: { required: true },
+  });
+
   const [open, setOpen] = useState(false);
+  const [values, setValues] = useState(field.value);
+
   const [items, setItems] = useState([
     { label: 'Sports', value: 'sports'},
     { label: 'Social', value: 'social'}, 
@@ -24,12 +31,6 @@ const TagPicker = ({ control, name }) => {
     { label: 'Free food', value: 'free-food'},
     { label: 'Sustainability', value: 'sustainability'},            
   ]);
-
-  const { field } = useController({
-    name,
-    control,
-    rules: { required: true },
-  });
   
   useEffect(()  => {
     const newValue = values;
