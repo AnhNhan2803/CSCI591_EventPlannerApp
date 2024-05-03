@@ -15,9 +15,9 @@ const CreateScreen = () => {
   return(
     <BgWrapper>
       <Image source={require('../assets/wave-spacer.png')} />
-      <View style={styles.View}>
+      <ScrollView style={styles.View}>
         <CreateForm style={styles.Create}/>
-      </View>
+      </ScrollView>
     </BgWrapper>
   );
 };
