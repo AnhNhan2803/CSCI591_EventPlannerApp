@@ -1,7 +1,7 @@
 import * as React from "react";
-import { createStackNavigator } from "@react-navigation/stack";
+import { createStackNavigator, CardStyleInterpolators } from "@react-navigation/stack";
 import { HomeScreen } from "../screens";
-import { Text, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
 import { colors } from "../config";
 import CalendarScreen from "../screens/CalendarScreen";
 import ProfileScreen from "../screens/ProfileScreen";
@@ -18,19 +18,70 @@ export const AppStack = () => {
         component={HomeScreen}
         options={{
           title: "Events",
-          headerStyle: {
-            backgroundColor: colors.maroon,
-          },
+          headerStyle: styles.headerStyle,
           headerTintColor: colors.white,
           headerTitleStyle: {
             fontSize: 35,
           },
         }}
       />
-      <Stack.Screen name="CalendarScreen" component={CalendarScreen} />
-      <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
-      <Stack.Screen name="CreateScreen" component={CreateScreen} />
-      <Stack.Screen name="EventDetailsScreen" component={EventDetailsScreen} />
+
+      <Stack.Screen
+        name="CalendarScreen"
+        component={CalendarScreen}
+        options={{
+          animationEnabled: false,
+          title: "Calendar",
+          headerStyle: styles.headerStyle,
+          headerTintColor: colors.white,
+          headerTitleStyle: {
+            fontSize: 35,
+          },
+        }}
+      />
+
+      <Stack.Screen
+        name="ProfileScreen"
+        component={ProfileScreen}
+        options={{
+          animationEnabled: false,
+          title: "Profile",
+          headerStyle: styles.headerStyle,
+          headerTintColor: colors.white,
+          headerTitleStyle: {
+            fontSize: 35,
+          },
+        }}
+      />
+
+      <Stack.Screen
+        name="CreateScreen"
+        component={CreateScreen}
+        options={{
+          title: "New Event",
+          headerStyle: styles.headerStyle,
+          headerTintColor: colors.white,
+          headerTitleStyle: {
+            fontSize: 35,
+          },
+          cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS // Slide-up animation
+        }}
+      />
+
+      <Stack.Screen
+        name="EventDetailsScreen"
+        component={EventDetailsScreen}
+        options={{
+          animationEnabled: false,
+          title: "Details",
+          headerStyle: styles.headerStyle,
+          headerTintColor: colors.white,
+          headerTitleStyle: {
+            fontSize: 35,
+          },
+        }}
+      />
+
     </Stack.Navigator>
   );
 };
@@ -45,4 +96,10 @@ const styles = StyleSheet.create({
   header: {
     backgroundColor: colors.maroon,
   },
+  headerStyle: {
+    backgroundColor: colors.maroon,
+    borderBottomWidth: 0,
+    borderBottomColor: colors.green,
+    shadowOpacity: 0,
+  }
 });

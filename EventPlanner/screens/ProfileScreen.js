@@ -7,14 +7,16 @@ import {
   SafeAreaView,
   Switch,
   Button,
+  Image,
 } from "react-native";
-
-import BottomNav from "../components/BottomNav";
 import Icon from "react-native-vector-icons/Ionicons";
-import { colors } from "../constants/theme";
-import { auth } from "../config";
 import { signOut } from "firebase/auth";
 
+import BottomNav from "../components/BottomNav";
+import { colors } from "../constants/theme";
+import { auth } from "../config";
+import BgWrapper from "../components/BgWrapper";
+import MaroonButton from "../components/MaroonButton";
 
 /**
  * Profile Screen
@@ -29,7 +31,7 @@ const ProfileScreen = ({ navigation }) => {
 
   // Updates userObject on page focus
   useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', () => {
+    const unsubscribe = navigation.addListener("focus", () => {
       setUser(auth.currentUser);
     });
 
@@ -39,31 +41,35 @@ const ProfileScreen = ({ navigation }) => {
   // Updates the state of the sliders
   useEffect(() => {
     if (!user) return;
-    user.isPushNotification ? setPushNotification(true) : setPushNotification(false);
-    user.isEmailNotification ? setEmailNotification(true) : setEmailNotification(false);
+    user.isPushNotification
+      ? setPushNotification(true)
+      : setPushNotification(false);
+    user.isEmailNotification
+      ? setEmailNotification(true)
+      : setEmailNotification(false);
   }, [user]);
 
   /**
    * Handles the state of push notifications in DOM and Firebase
-   * 
-   * @param {boolean} value 
+   *
+   * @param {boolean} value
    */
   function handlePushNotificationChange(value) {
     setPushNotification(value);
     // Call some function here to enable push notifications on device
     auth.currentUser.isPushNotification = value;
-  };
+  }
 
   /**
    * Handles the state of email notifications in DOM and Firebase
-   * 
-   * @param {boolean} value 
+   *
+   * @param {boolean} value
    */
   function handleEmailNotificationChange(value) {
     setEmailNotification(value);
     // Call some function here to enable email notifications on device
     auth.currentUser.isEmailNotification = value;
-  };
+  }
 
   /**
    * Handles button press to sign out user
@@ -83,108 +89,105 @@ const ProfileScreen = ({ navigation }) => {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: colors.white }}>
-      <View style={styles.container}>
-        {/* Scroll portion */}
-        <View style={styles.scrollWrapper}>
-          {/* <ScrollView> */}
-          {/* Header portion */}
-          <View style={styles.headerContainer}>
-            <View style={styles.avatarWrapper}>
-              {/* TODO: This Icon should be an image accessed from firestore uploaded by the user */}
-              <Icon
-                name="person-circle-outline"
-                size={120}
-                color={colors.maroon}
-              />
-            </View>
-            <View style={styles.headerTextContainer}>
-              <Text style={styles.name}>{user ? user.email : "Loading..."}</Text>
-              <Text style={styles.name}>
-                {user ? user.isAdmin ? "Student" : "Admin" : "Loading..."}
-              </Text>
-            </View>
-          </View>
-
-          <Text style={styles.rowTitle}>PREFERENCES</Text>
-
-          {/* Setting items */}
-          <View style={styles.rowContainer}>
-            <TouchableOpacity style={styles.rowItemContainer}>
-              <View style={styles.row}>
+    <BgWrapper>
+      <SafeAreaView style={{ flex: 1 }}>
+        <Image source={require("../assets/wave-spacer.png")} />
+        <View style={styles.container}>
+          {/* Scroll portion */}
+          <View style={styles.scrollWrapper}>
+            {/* <ScrollView> */}
+            {/* Header portion */}
+            <View style={styles.headerContainer}>
+              <View style={styles.avatarWrapper}>
+                {/* TODO: This Icon should be an image accessed from firestore uploaded by the user */}
                 <Icon
-                  name="notifications-outline"
-                  size={35}
+                  name="person-circle-outline"
+                  size={120}
                   color={colors.maroon}
                 />
-                <Text style={styles.rowLabel}>Push Notifications</Text>
-                <View style={styles.rowSpacer} />
-                <Switch
-                  trackColor={{ true: colors.maroon, false: colors.medium }}
-                  onValueChange={(newValue) => {
-                    handlePushNotificationChange(newValue);
-                  }}
-                  value={pushNotification}
-                />
               </View>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.rowItemContainer}>
-              <View style={styles.row}>
-                <Icon name="mail-outline" size={35} color={colors.maroon} />
-                <Text style={styles.rowLabel}>Email Notifications</Text>
-                <View style={styles.rowSpacer} />
-                <Switch
-                  trackColor={{ true: colors.maroon, false: colors.medium }}
-                  onValueChange={(newValue) => {
-                    handleEmailNotificationChange(newValue);
-                  }}
-                  value={emailNotification}
-                />
+              <View style={styles.headerTextContainer}>
+                <Text style={styles.name}>
+                  {user ? user.email : "Loading..."}
+                </Text>
+                <Text style={styles.name}>
+                  {user ? (user.isAdmin ? "Student" : "Admin") : "Loading..."}
+                </Text>
               </View>
-            </TouchableOpacity>
-            {/* Conditionally renders signout button if based on whether userObject exists */}
-            {user ? (
-              <View style={styles.buttonContainer}>
-                <TouchableOpacity>
-                  <View style={styles.button}>
-                    <Button
-                      title="Sign Out"
-                      onPress={handleLogout}
-                      color={colors.white}
-                    />
-                  </View>
-                </TouchableOpacity>
-              </View>
-            ) : (
-              <View style={styles.buttonContainer}>
-                <TouchableOpacity>
-                  <View style={styles.button}>
-                    <Button
-                      title="Sign In"
-                      onPress={handleSignIn}
-                      color={colors.white}
-                    />
-                  </View>
-                </TouchableOpacity>
-                <TouchableOpacity>
-                  <View style={styles.button}>
-                    <Button
-                      title="Register"
-                      onPress={handleRegister}
-                      color={colors.white}
-                    />
-                  </View>
-                </TouchableOpacity>
-              </View>
-            )}
-          </View>
-          {/* </ScrollView> */}
-        </View>
-      </View>
+            </View>
 
-      {/* Render NavBar */}
-      <BottomNav />
-    </SafeAreaView>
+            <Text style={styles.rowTitle}>PREFERENCES</Text>
+
+            {/* Setting items */}
+            <View style={styles.rowContainer}>
+              <TouchableOpacity style={styles.rowItemContainer}>
+                <View style={styles.row}>
+                  <Icon
+                    name="notifications-outline"
+                    size={35}
+                    color={colors.maroon}
+                  />
+                  <Text style={styles.rowLabel}>Push Notifications</Text>
+                  <View style={styles.rowSpacer} />
+                  <Switch
+                    trackColor={{ true: colors.maroon, false: colors.medium }}
+                    onValueChange={(newValue) => {
+                      handlePushNotificationChange(newValue);
+                    }}
+                    value={pushNotification}
+                  />
+                </View>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.rowItemContainer}>
+                <View style={styles.row}>
+                  <Icon name="mail-outline" size={35} color={colors.maroon} />
+                  <Text style={styles.rowLabel}>Email Notifications</Text>
+                  <View style={styles.rowSpacer} />
+                  <Switch
+                    trackColor={{ true: colors.maroon, false: colors.medium }}
+                    onValueChange={(newValue) => {
+                      handleEmailNotificationChange(newValue);
+                    }}
+                    value={emailNotification}
+                  />
+                </View>
+              </TouchableOpacity>
+              {/* Conditionally renders sign out button if based on whether userObject exists */}
+              {user ? (
+                <View style={styles.buttonContainer}>
+                  <MaroonButton buttonText="Sign out" title="Sign Out" onPress={handleLogout} />
+                </View>
+              ) : (
+                <View style={styles.buttonContainer}>
+                  <TouchableOpacity>
+                    <View style={styles.button}>
+                      <Button
+                        title="Sign In"
+                        onPress={handleSignIn}
+                        color={colors.white}
+                      />
+                    </View>
+                  </TouchableOpacity>
+                  <TouchableOpacity>
+                    <View style={styles.button}>
+                      <Button
+                        title="Register"
+                        onPress={handleRegister}
+                        color={colors.white}
+                      />
+                    </View>
+                  </TouchableOpacity>
+                </View>
+              )}
+            </View>
+            {/* </ScrollView> */}
+          </View>
+        </View>
+
+        {/* Render NavBar */}
+        <BottomNav />
+      </SafeAreaView>
+    </BgWrapper>
   );
 };
 
@@ -193,14 +196,14 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "column",
     alignContent: "flex-start",
-    backgroundColor: colors.white,
+    backgroundColor: "transparent",
   },
   headerContainer: {
     height: 200,
     alignItems: "center",
     justifyContent: "flex-start",
     padding: 24,
-    backgroundColor: colors.white,
+    backgroundColor: "transparent",
   },
   avatarWrapper: {
     position: "relative",
