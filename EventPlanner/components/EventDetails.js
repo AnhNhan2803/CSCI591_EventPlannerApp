@@ -25,6 +25,10 @@ const EventDetails = ({ item }) => {
     checkBookmarks();
   }, [item.id]);
 
+  if (!item) {
+    return <Text>No event details available.</Text>;
+  }
+
   const addBookmarkToUser = (eventId) => {
     if (!auth.currentUser) {
       console.error("User not logged in");
@@ -105,11 +109,15 @@ const EventDetails = ({ item }) => {
         </View>
         <Text style={styles.description}>{item.description}</Text>
         <View style={styles.tagsContainer}>
-          {item.tags.split(", ").map((tag, index) => (
-            <Text key={index} style={styles.tag}>
-              {tag}
-            </Text>
-          ))}
+          {item.Tags && Array.isArray(item.Tags) ? (
+            item.Tags.map((tag, index) => (
+              <Text key={index} style={styles.tag}>
+                {tag}
+              </Text>
+            ))
+          ) : (
+            <Text>No tags available</Text>
+          )}
         </View>
       </ScrollView>
     </View>

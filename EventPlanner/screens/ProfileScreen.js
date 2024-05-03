@@ -7,7 +7,6 @@ import {
   SafeAreaView,
   Switch,
   Button,
-  Image,
 } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import { signOut } from "firebase/auth";
@@ -78,12 +77,12 @@ const ProfileScreen = ({ navigation }) => {
     signOut(auth).catch((error) => console.log("Error logging out: ", error));
   };
 
-  // DEPRICATED: Sign in functionality
+  // DEPRECATED: Sign in functionality
   const handleSignIn = () => {
     console.log("SIGN IN PRESSED");
   };
 
-  // DEPRICATED: Sign in functionality
+  // DEPRECATED: Sign in functionality
   const handleRegister = () => {
     console.log("REGISTER PRESSED");
   };
@@ -91,7 +90,6 @@ const ProfileScreen = ({ navigation }) => {
   return (
     <BgWrapper>
       <SafeAreaView style={{ flex: 1 }}>
-        <Image source={require("../assets/wave-spacer.png")} />
         <View style={styles.container}>
           {/* Scroll portion */}
           <View style={styles.scrollWrapper}>
@@ -120,7 +118,7 @@ const ProfileScreen = ({ navigation }) => {
 
             {/* Setting items */}
             <View style={styles.rowContainer}>
-              <TouchableOpacity style={styles.rowItemContainer}>
+              <View style={styles.rowItemContainer}>
                 <View style={styles.row}>
                   <Icon
                     name="notifications-outline"
@@ -137,8 +135,8 @@ const ProfileScreen = ({ navigation }) => {
                     value={pushNotification}
                   />
                 </View>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.rowItemContainer}>
+              </View>
+              <View style={styles.rowItemContainer}>
                 <View style={styles.row}>
                   <Icon name="mail-outline" size={35} color={colors.maroon} />
                   <Text style={styles.rowLabel}>Email Notifications</Text>
@@ -151,7 +149,7 @@ const ProfileScreen = ({ navigation }) => {
                     value={emailNotification}
                   />
                 </View>
-              </TouchableOpacity>
+              </View>
               {/* Conditionally renders sign out button if based on whether userObject exists */}
               {user ? (
                 <View style={styles.buttonContainer}>
@@ -159,7 +157,7 @@ const ProfileScreen = ({ navigation }) => {
                 </View>
               ) : (
                 <View style={styles.buttonContainer}>
-                  <TouchableOpacity>
+                  <View>
                     <View style={styles.button}>
                       <Button
                         title="Sign In"
@@ -167,8 +165,8 @@ const ProfileScreen = ({ navigation }) => {
                         color={colors.white}
                       />
                     </View>
-                  </TouchableOpacity>
-                  <TouchableOpacity>
+                  </View>
+                  <View>
                     <View style={styles.button}>
                       <Button
                         title="Register"
@@ -176,7 +174,7 @@ const ProfileScreen = ({ navigation }) => {
                         color={colors.white}
                       />
                     </View>
-                  </TouchableOpacity>
+                  </View>
                 </View>
               )}
             </View>
@@ -234,6 +232,13 @@ const styles = StyleSheet.create({
     flex: 1,
     width: "90%",
     alignItems: "center",
+    shadowColor: colors.dark,
+    shadowOffset: {
+      width: 0,
+      height: 10,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
   },
   rowItemContainer: {
     width: "100%",
