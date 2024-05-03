@@ -3,8 +3,7 @@ on:
       branches: [ "ci/cd" ]
     pull_request:
       branches: [ "ci/cd" ]
-  
-  jobs:
+jobs:
     test:
       name: Jest Expo Tests
       runs-on: ubuntu-latest
