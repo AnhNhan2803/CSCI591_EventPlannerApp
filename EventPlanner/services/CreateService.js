@@ -14,13 +14,13 @@ import {
   TextInput,
   StyleSheet,
   Alert,
-  TouchableOpacity,
   Button,
 } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 
 import { db } from "../config/firebase";
 import { colors } from "../constants/theme";
+import TagPicker from "../components/TagPicker";
 import MaroonButton from "../components/MaroonButton";
 
 const FormItem = ({ control, name, err, ph = "", required = true }) => {
@@ -125,82 +125,86 @@ export default CreateForm = () => {
 
   let isErr = Object.keys(errors).length > 0;
   return (
-    <>
-      <View style={styles.view}>
-        <FormItem
-          control={control}
-          name={"Title"}
-          err={errors.title}
-          ph={"What's your event called?"}
-        />
-        <FormItem
-          control={control}
-          name={"Organizer"}
-          err={errors.organizer}
-          ph={"Who's organizing your event?"}
-        />
-        <FormItem
-          control={control}
-          name={"Location"}
-          err={errors.location}
-          ph={"Where's your event?"}
-        />
-        <FormItem
-          control={control}
-          name={"Description"}
-          err={errors.description}
-          ph={"Tell us about your event!"}
-        />
-        <FormItem
-          control={control}
-          name={"Tags"}
-          err={errors.tags}
-          ph={"**WORK IN PROGRESS**"}
-        />
+    <View style={styles.view}>
+      <FormItem
+        control={control}
+        name={"Title"}
+        err={errors.title}
+        ph={"What's your event called?"}
+      />
+      <FormItem
+        control={control}
+        name={"Organizer"}
+        err={errors.organizer}
+        ph={"Who's organizing your event?"}
+      />
+      <FormItem
+        control={control}
+        name={"Location"}
+        err={errors.location}
+        ph={"Where's your event?"}
+      />
+      <FormItem
+        control={control}
+        name={"Description"}
+        err={errors.description}
+        ph={"Tell us about your event!"}
+      />
+      <View style={styles.tagPickerContainer}>
+      <Text style={styles.rowTitle}>TAGS*</Text>
+      <TagPicker
+        control={control}
+        name={"Tags"}
+      />
+      </View>
 
-        <View style={styles.dateTimeContainer}>
-          <Text style={styles.rowTitle}>DATE AND TIME*</Text>
-          <View style={styles.dateTimeSubContainer}>
+      <View style={styles.dateTimeContainer}>
+        <Text style={styles.rowTitle}>DATE AND TIME*</Text>
+        <View style={styles.dateTimeSubContainer}>
+          {!showDatePicker && (
             <Button
-              title={showDatePicker ? "Select Date" : formatDate(date)}
-              onPress={() => setShowDatePicker(true)}
+            title={showDatePicker ? "Select Date" : formatDate(date)}
+            onPress={() => setShowDatePicker(true)}
+          />
+          )}
+          {showDatePicker && (
+            <DateTimePicker
+              style={styles.dateTimePicker}
+              testID="datePicker"
+              value={date}
+              mode="date"
+              is24Hour={true}
+              display="default"
+              onChange={onChange}
             />
-            {showDatePicker && (
-              <DateTimePicker
-                style={styles.dateTimePicker}
-                testID="datePicker"
-                value={date}
-                mode="date"
-                is24Hour={true}
-                display="default"
-                onChange={onChange}
-              />
-            )}
+          )}
+          {!showTimePicker && (
             <Button
-              title={showTimePicker ? "Select Time" : formatTime(date)}
-              onPress={() => setShowTimePicker(true)}
+            title={showTimePicker ? "Select Time" : formatDate(date)}
+            onPress={() => setShowTimePicker(true)}
+          />
+          )}
+          {showTimePicker && (
+            <DateTimePicker
+              style={styles.dateTimePicker}
+              testID="timePicker"
+              value={date}
+              mode="time"
+              is24Hour={true}
+              display="default"
+              onChange={onChange}
             />
-            {showTimePicker && (
-              <DateTimePicker
-                style={styles.dateTimePicker}
-                testID="timePicker"
-                value={date}
-                mode="time"
-                is24Hour={true}
-                display="default"
-                onChange={onChange}
-              />
-            )}
-          </View>
-        </View>
-
-        {isErr && <Text style={styles.errText}>You're missing something!</Text>}
-
-        <View style={styles.buttonContainer}>
-          <MaroonButton buttonText="Submit" title="Submit" onPress={handleSubmit(handleSubmission)} disabled={isErr} />
+          )}
         </View>
       </View>
-    </>
+
+      {isErr && <Text style={styles.errText}>You're missing something!</Text>}
+      {console.log(errors)}
+
+      <View style={styles.buttonContainer}>
+        <MaroonButton buttonText="Submit" title="Submit" onPress={handleSubmit(handleSubmission)} disabled={isErr} />
+      </View>
+    </View>
   );
 };
 
@@ -208,6 +212,7 @@ const styles = StyleSheet.create({
   view: {
     alignItems: "center",
     backgroundColor: "transparent",
+    height: "100%",
   },
   buttonContainer: {
     paddingHorizontal: 10,
@@ -241,10 +246,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.medium,
   },
-  borderErr: {
-    borderWidth: 2,
-    borderColor: colors.danger,
-  },
   rowTitle: {
     color: colors.dark,
     fontSize: 14,
@@ -277,4 +278,12 @@ const styles = StyleSheet.create({
     backgroundColor: colors.maroon,
     borderRadius: 10,
   },
+  tagPickerContainer: {
+    display: "flex",
+    marginVertical: 12,
+    flexDirection: "column",
+    marginBottom: 20,
+
+    //minHeight: 300,
+  }
 });
