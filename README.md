@@ -26,5 +26,5 @@ Congratulations! You've successfully run and modified your first React Native ap
 ## Setup Unit test
 $ cd EventPlanner
 $ npx expo install jest-expo jest
-$ npm install --save-dev react-test-renderer @testing-library/react-native
+$ npm i react-test-renderer@18.2.0
 $ npm run test
