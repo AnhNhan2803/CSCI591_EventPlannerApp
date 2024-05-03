@@ -36,10 +36,7 @@
     "react-hook-form": "^7.51.2",
     "react-native": "0.72.10",
     "react-native-calendars": "^1.1304.1",
-<<<<<<< HEAD
     "react-native-dropdown-picker": "^5.4.6",
-=======
->>>>>>> 176cc125a83bff12c475758f3ecfdeb8321d9744
     "react-native-gesture-handler": "~2.12.0",
     "react-native-keyboard-aware-scroll-view": "^0.9.4",
     "react-native-reanimated": "~3.3.0",
