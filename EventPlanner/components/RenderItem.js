@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/Ionicons";
+import { Timestamp } from "firebase/firestore";
 
 import { colors } from "../constants/theme";
 import { auth } from "../config/firebase";
@@ -65,9 +66,9 @@ export const RenderItem = ({ item }) => {
 
   function formatDateAndTime(firestoreTimestamp) {
     // Check if the object is a Firestore Timestamp
-    // if (!(firestoreTimestamp instanceof Timestamp)) {
-    //   throw new Error("Invalid input: expected a Firestore Timestamp");
-    // }
+    if (!(firestoreTimestamp instanceof Timestamp)) {
+      throw new Error("Invalid input: expected a Firestore Timestamp");
+    }
 
     // Convert Firestore Timestamp to JavaScript Date object
     const dateObject = firestoreTimestamp.toDate();
@@ -92,13 +93,13 @@ export const RenderItem = ({ item }) => {
     return [dateString, timeString];
   }
   const [dateString, timeString] = formatDateAndTime(item.Date);
-  console.log(item);
+  // console.log(item);
   return (
     <View style={styles.container}>
       <TouchableOpacity
         style={styles.eventItem}
         onPress={() => {
-          console.log("Item being passed:", item);
+          // console.log("Item being passed:", item);
           navigation.navigate("EventDetailsScreen", { item });
         }}
       >
