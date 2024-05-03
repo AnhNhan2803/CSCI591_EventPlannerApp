@@ -25,6 +25,8 @@ Congratulations! You've successfully run and modified your first React Native ap
 
 ## Setup Unit test
 $ cd EventPlanner
+$ npm i react-test-renderer@18.2.0
+$ npm install --save-dev @babel/plugin-transform-private-methods
+$ npm install --save-dev @babel/plugin-proposal-class-properties
 $ npx expo install jest-expo jest
-$ npm install --save-dev react-test-renderer @testing-library/react-native
 $ npm run test

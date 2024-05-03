@@ -1,0 +1,36 @@
+on:
+    push:
+      branches: [ "ci/cd" ]
+    pull_request:
+      branches: [ "ci/cd" ]
+  
+  jobs:
+    test:
+      name: Jest Expo Tests
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout code
+          uses: actions/checkout@v4
+  
+        - name: Setup Node.js
+          uses: actions/setup-node@v3
+          with:
+            node-version: 18.x
+            cache: 'npm'
+  
+        - name: Install dependencies
+          run: npm install
+          working-directory: ./EventPlanner
+  
+        - name: Install Jest and React Test Renderer
+          run: |
+            npx expo install jest-expo jest
+            npm install react-test-renderer@18.2.0
+            npm install --save-dev @babel/plugin-transform-private-methods
+            npm install --save-dev @babel/plugin-proposal-class-properties
+          working-directory: ./EventPlanner
+  
+        - name: Run Jest tests
+          run: npm run test
+          working-directory: ./EventPlanner
+  

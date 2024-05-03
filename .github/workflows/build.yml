@@ -1,10 +1,10 @@
 on:
   push:
-    branches: ["ci/cd"]
-
+    branches: [ "ci/cd" ]
 jobs:
-  general-build:
-    name: General Build
+  # Android build 
+  android-build:
+    name: Android CI/CD Build
     permissions: write-all
     runs-on: ubuntu-latest
     steps:
@@ -16,6 +16,16 @@ jobs:
         with:
           node-version: 18.x
           cache: 'npm'
+          
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
 
       - uses: expo/expo-github-action@v5
         with:
@@ -24,13 +34,13 @@ jobs:
           expo-password: ${{ secrets.EXPO_CLI_PASSWORD }}
 
       - name: Setup EAS
-        run: npm install -g eas-cli
+        run: npm install -g eas-cli 
         working-directory: ./EventPlanner
 
       - name: Install dependencies
         run: npm install && npm install --save dotenv && npm i @react-native-firebase/app
         working-directory: ./EventPlanner
 
-      - name: Build
-        run: eas build --platform all
+      - name: Build Android APK Bundle
+        run: eas build --platform android
         working-directory: ./EventPlanner
