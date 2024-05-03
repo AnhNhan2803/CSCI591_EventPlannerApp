@@ -22,7 +22,7 @@ export const EventService = {
    */
   updateEventCapacity: async (eventId, newCapacity) => {
     try {
-      const eventDoc = doc(db, "events", eventId);
+      const eventDoc = doc(db, "Events", eventId);
       await updateDoc(eventDoc, { capacity: newCapacity });
       return { id: eventId, capacity: newCapacity };
     } catch (error) {
@@ -39,7 +39,7 @@ export const EventService = {
    */
   getEventDetails: async (eventId) => {
     try {
-      const eventDoc = doc(db, "events", eventId);
+      const eventDoc = doc(db, "Events", eventId);
       const docSnap = await getDoc(eventDoc);
 
       if (docSnap.exists()) {
@@ -60,7 +60,7 @@ export const EventService = {
    */
   getAllEvents: async () => {
     try {
-      const eventsCollection = collection(db, "events");
+      const eventsCollection = collection(db, "Events");
       const eventsSnapshot = await getDocs(eventsCollection);
       const events = [];
 
